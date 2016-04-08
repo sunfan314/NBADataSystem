@@ -18,14 +18,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * 球队基本数据
- * id			球队id
- * name         球队名字
- * abbr         球队缩写
- * city         球队所在城市
- * league       球队所在赛区
- * conference   球队所在分区
- * sName        球队缩略名
- * founded      球队成立时间
+ * id				球队id
+ * name				球队名
+ * city				球队所在城市
+ * league			球队所在东西部信息
+ * conference		球队分区信息
+ * court			球队球馆
+ * startYearInNBA	球队进入NBA时间
+ * numOfChampions	球队总冠军数
  */
 @Entity
 @Table(name = "team")
@@ -36,21 +36,25 @@ public class Team {
 
 	private String name;
 
-	private String abbr;
-
 	private String city;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "leagueId", unique = true)
-	private League league;
+	private String league;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "conferenceId", unique = true)
-	private Conference conference;
+	private String conference;
 
-	private String sName;
+	private String court;
 
-	private int founded;
+	private int startYearInNBA;
+
+	private int numOfChampions;
+
+	public Team() {
+
+	}
+
+	public Team(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;
@@ -68,14 +72,6 @@ public class Team {
 		this.name = name;
 	}
 
-	public String getAbbr() {
-		return abbr;
-	}
-
-	public void setAbbr(String abbr) {
-		this.abbr = abbr;
-	}
-
 	public String getCity() {
 		return city;
 	}
@@ -84,36 +80,44 @@ public class Team {
 		this.city = city;
 	}
 
-	public League getLeague() {
+	public String getLeague() {
 		return league;
 	}
 
-	public void setLeague(League league) {
+	public void setLeague(String league) {
 		this.league = league;
 	}
 
-	public Conference getConference() {
+	public String getConference() {
 		return conference;
 	}
 
-	public void setConference(Conference conference) {
+	public void setConference(String conference) {
 		this.conference = conference;
 	}
 
-	public String getsName() {
-		return sName;
+	public String getCourt() {
+		return court;
 	}
 
-	public void setsName(String sName) {
-		this.sName = sName;
+	public void setCourt(String court) {
+		this.court = court;
 	}
 
-	public int getFounded() {
-		return founded;
+	public int getStartYearInNBA() {
+		return startYearInNBA;
 	}
 
-	public void setFounded(int founded) {
-		this.founded = founded;
+	public void setStartYearInNBA(int startYearInNBA) {
+		this.startYearInNBA = startYearInNBA;
+	}
+
+	public int getNumOfChampions() {
+		return numOfChampions;
+	}
+
+	public void setNumOfChampions(int numOfChampions) {
+		this.numOfChampions = numOfChampions;
 	}
 
 }
