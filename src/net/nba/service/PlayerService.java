@@ -11,6 +11,8 @@ public interface PlayerService {
 	public void updateTeamPlayers();//写入球队阵容信息
 	
 	public List<Player> getTeamPlayerList(int teamId);//获取球队阵容列表
+	
+	public List<Player> getPlayers();//获取所有球员列表
 
 //	List<Map<String, Object>> getSeasonPlayerRanks();
 //

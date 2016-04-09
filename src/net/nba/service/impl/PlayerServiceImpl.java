@@ -39,6 +39,12 @@ public class PlayerServiceImpl implements PlayerService {
 		// TODO Auto-generated method stub
 		return playerDao.find("from Player where teamId = ?",teamId);
 	}
+
+	@Override
+	public List<Player> getPlayers() {
+		// TODO Auto-generated method stub
+		return playerDao.find("from Player");
+	}
 	
 
 //	

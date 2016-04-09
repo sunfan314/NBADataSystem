@@ -28,7 +28,7 @@ public class WebPageReader {
 	        } catch (MalformedURLException e) {
 	            e.printStackTrace();
 	        } catch (IOException e) {
-	            e.printStackTrace();
+	            System.out.println("no response from web page:"+urlStr);
 	        }
 	        return result;
 	}
