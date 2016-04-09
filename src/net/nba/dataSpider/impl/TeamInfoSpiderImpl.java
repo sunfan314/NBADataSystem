@@ -92,11 +92,11 @@ public class TeamInfoSpiderImpl implements TeamInfoSpider {
 		matcher = pattern.matcher(webPageBuffer);
 		if (matcher.matches()) {
 			String str1 = matcher.group(3);
-			pattern = Pattern
-					.compile("(<tr bgcolor=)(.*?)(onMouseOut=)(.*?)(</tr>)");
 			/*
 			 * 正则表达式 前后不可以加(.*) 否则无法匹配到所有满足条件的子序列
 			 */
+			pattern = Pattern
+					.compile("(<tr bgcolor=)(.*?)(onMouseOut=)(.*?)(</tr>)");
 			matcher = pattern.matcher(str1);
 			int count = 1;// 记录计数
 			while (matcher.find()) {

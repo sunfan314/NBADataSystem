@@ -1,82 +1,38 @@
-create table league(
-	id int primary key,
-	name varchar(255) not null
-)default charset = 'utf8';
-
-create table conference(
-	id int primary key,
-	name varchar(255) not null
-)default charset = 'utf8';
-
+create database nbadatasystem;
 create table team(
 	id int primary key,
 	name varchar(255) not null,
-	abbr varchar(255) not null,
 	city varchar(255) not null,
-	leagueId int not null,
-	conferenceId int not null,
-	sName varchar(255) not null,
-	founded int not null,
-	constraint foreign key team_league_const (leagueId) references league(id),
-	constraint foreign key team_conferencs_const (conferenceId) references conference(id)
+	league varchar(255) not null,
+	conference varchar(255) not null,
+	court varchar(255) not null,
+	startYearInNBA int not null,
+	numOfChampions int not null
+)default charset = 'utf8';
+
+create table team_ranks(
+	teamId int primary key,
+	rank int not null,
+	name varchar(255) not null,
+	league int not null,#东部：0 西部：1
+	wins int not null,
+	loses int not null,
+	winRate varchar(255) not null,
+	gamesBehind double not null,
+	pspg double not null,
+	papg double not null
 )default charset = 'utf8';
 
 create table player(
 	id int primary key auto_increment,
-	teamId int,
-	no int not null,
+	teamId int not null,
 	name varchar(255) not null,
+	nameInEn varchar(255) not null,#球员英文名，需要借助该项数据访问球员详细信息页面
 	pos varchar(255) not null,
-	ht float not null,
-	wt float not null,
-	birth date not null,
-	exp int not null,
-	college varchar(255) not null default "not ever in college",
-	img varchar(255) not null default "not having any picture" ,
-	constraint foreign key player_team_const (teamId) references team(id)
-)default charset = 'utf8';
-
-
-create table match_info(
-	id int primary key auto_increment,
-	home_team_id int not null,
-	home_score int not null,
-	visiting_team_id int not null,
-	visiting_score int not null,
-	season_id int not null,
-	match_date date not null,
-	constraint foreign key (home_team_id) references team(id),
-	constraint foreign key (visiting_team_id) references team(id),
-	constraint foreign key (season_id) references season(id)
-)default charset = 'utf8';
-
-create table season(
-	id int primary key auto_increment,
-	season_des varchar(255) not null
-)default charset = 'utf8';
-
-create table team_match_info(
-	id int primary key auto_increment, 
-	team_id int not null,
-	match_id int not null,
-	score int not null,
-	1st_score int not null,
-	2nd_score int not null,
-	3rd_score int not null,
-	4th_score int not null,
-	constraint foreign key (team_id) references team(id),
-	constraint foreign key (match_id) references match_info(id)
-)default charset = ‘utf8’;
-
-create table player_match_info(
-	id int primary key auto_increment,
-	player_id int not null,
-	match_id int not null,
-	score int not null,
-	1st_score int not null,
-	2nd_score int not null,
-	3rd_score int not null,
-	4th_score int not null,
-	constraint foreign key (player_id) references player(id),
-	constraint foreign key (match_id) references match_info(id)
+	height double not null,
+	weight double not null,
+	age int not null,
+	birthday varchar(255) not null,
+	yearInNBA int not null,
+	constraint foreign key(teamId) references team(id)
 )default charset = 'utf8';

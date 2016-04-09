@@ -50,6 +50,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	public List<T> find(String hql) {
 		return this.getCurrentSession().createQuery(hql).list();
 	}
+	
+	public List<T> find(String hql,Object param){
+		Query q = this.getCurrentSession().createQuery(hql);
+		q.setParameter(0, param);
+		return q.list();
+	}
 
 	public List<T> find(String hql, Object[] param) {
 		Query q = this.getCurrentSession().createQuery(hql);

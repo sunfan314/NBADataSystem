@@ -45,6 +45,8 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	public List<T> find(String hql);
+	
+	public List<T> find(String hql,Object param);
 
 	/**
 	 * ��ѯ����

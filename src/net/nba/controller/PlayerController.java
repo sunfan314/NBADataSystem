@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.nba.model.Player;
 import net.nba.service.PlayerService;
 
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class PlayerController {
-//	@Resource
-//	private PlayerService playerService;
-//	
+	@Resource
+	private PlayerService playerService;
+	
+	@RequestMapping("/getTeamPlayerList")
+	public @ResponseBody List<Player> getTeamPlayerList(int teamId){
+		//获取某只球队的阵容信息
+		return playerService.getTeamPlayerList(teamId);
+	}
 //	@RequestMapping("/getPlayerRanks")
 //	public @ResponseBody List<Map<String,Object>> getPlayerRanks(@RequestParam(required=false)Date date){
 //		//获取球员数据统计排行(得分、篮板、助攻、抢断)，每项排行选取前五名，传入日期参数时显示当日的排行，否则显示赛季排行

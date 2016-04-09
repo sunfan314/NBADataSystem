@@ -1,145 +1,138 @@
-//package net.nba.model;
-//
-//import java.util.Date;
-//
-//import javax.persistence.CascadeType;
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.FetchType;
-//import javax.persistence.Id;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.OneToOne;
-//import javax.persistence.Table;
-//
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-//
-///*
-// * id 			球员
-// * abbr         球员效力球队
-// * no           球员编号
-// * name         球员姓名
-// * pos          球员担任位置
-// * ht           球员身高
-// * wt           球员体重
-// * birth        球员生日
-// * exp          球员球龄
-// * college      球员毕业大学
-// * img          球员照片路径
-// */
-//@Entity
-//@Table(name = "player")
-//@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
-//public class Player {
-//	@Id
-//	private int id;
-//
-//	@Column(name = "teamId")
-//	private int teamId;
-//
-//	private int no;
-//
-//	private String name;
-//
-//	private String pos;
-//
-//	private String ht;
-//
-//	private int wt;
-//
-//	private String birth;
-//
-//	private int exp;
-//
-//	private String college;
-//
-//	private String img;
-//
-//	public int getId() {
-//		return id;
-//	}
-//
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//
-//	public int getNo() {
-//		return no;
-//	}
-//
-//	public void setNo(int no) {
-//		this.no = no;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public int getTeamId() {
-//		return teamId;
-//	}
-//
-//	public void setTeamId(int teamId) {
-//		this.teamId = teamId;
-//	}
-//
-//	public String getPos() {
-//		return pos;
-//	}
-//
-//	public void setPos(String pos) {
-//		this.pos = pos;
-//	}
-//
-//	public String getHt() {
-//		return ht;
-//	}
-//
-//	public void setHt(String ht) {
-//		this.ht = ht;
-//	}
-//
-//	public int getWt() {
-//		return wt;
-//	}
-//
-//	public void setWt(int wt) {
-//		this.wt = wt;
-//	}
-//
-//	public String getBirth() {
-//		return birth;
-//	}
-//
-//	public void setBirth(String birth) {
-//		this.birth = birth;
-//	}
-//
-//	public int getExp() {
-//		return exp;
-//	}
-//
-//	public void setExp(int exp) {
-//		this.exp = exp;
-//	}
-//
-//	public String getCollege() {
-//		return college;
-//	}
-//
-//	public void setCollege(String college) {
-//		this.college = college;
-//	}
-//
-//	public String getImg() {
-//		return img;
-//	}
-//
-//	public void setImg(String img) {
-//		this.img = img;
-//	}
-//
-//}
+package net.nba.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+/*
+ * id			球员id	
+ * num			球员号码
+ * teamId 		球员所属球队id
+ * name			球员名	
+ * nameInEn		球员英文名（用于获取球员链接）
+ * pos			球员位置
+ * height		球员身高（单位：米）
+ * weight		球员体重（单位：公斤）
+ * age			球员年龄
+ * birthday 	球员生日（例：1993-3-3）
+ * yearInNBA	球员NBA球龄
+ */
+
+@Entity
+@Table(name = "player")
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
+public class Player {
+	@Id
+	private int id;
+
+	private int num;
+
+	private int teamId;
+
+	private String name;
+
+	private String nameInEn;
+
+	private String pos;
+
+	private double height;
+
+	private double weight;
+
+	private int age;
+
+	private String birthday;
+
+	private int yearInNBA;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getNameInEn() {
+		return nameInEn;
+	}
+
+	public void setNameInEn(String nameInEn) {
+		this.nameInEn = nameInEn;
+	}
+
+	public String getPos() {
+		return pos;
+	}
+
+	public void setPos(String pos) {
+		this.pos = pos;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public int getYearInNBA() {
+		return yearInNBA;
+	}
+
+	public void setYearInNBA(int yearInNBA) {
+		this.yearInNBA = yearInNBA;
+	}
+
+}

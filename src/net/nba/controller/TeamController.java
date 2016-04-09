@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.nba.model.Player;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.TeamService;
@@ -36,8 +37,9 @@ public class TeamController {
 		//获取球队赛季排行，包含胜场、负场及胜场差
 		return teamService.getTeamSeasonRanks();
 	}
+	
 //	
-//	@RequestMapping("/getTeamStatistics")
+//	@RequestMapping("/getTeamSeasonStatistics")
 //	public @ResponseBody Map<String, Object> getTeamStatistics(int teamId){
 //		//获取当前赛季球队比赛数据统计
 //		return teamService.getTeamStatistics(teamId);
