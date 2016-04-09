@@ -1,15 +1,12 @@
+package net.nba.test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
-import net.nba.dataSpider.impl.TeamInfoSpiderImpl;
-import net.nba.model.Team;
-import net.nba.service.TeamService;
-import net.nba.service.impl.TeamServiceImpl;
-
 
 public class Main {
 
@@ -18,7 +15,7 @@ public class Main {
 		PlayerInfoSpiderImpl p=new PlayerInfoSpiderImpl();
 		List<String> list=new ArrayList<String>();
 		list.add("Jeff-Teague");
-		p.downloadPlayerPic(list);;
+		p.downloadPlayerPic(list);
 	}
 
 }

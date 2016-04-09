@@ -81,8 +81,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut id="serviceMethods"
-			expression="execution(* net.nba.service.*.*(..))" />
+		<aop:pointcut id="serviceMethods" expression="execution(* net.nba.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
 	</aop:config>
 
@@ -113,7 +112,8 @@
 		<property name="maxUploadSize" value="1000000000" />
 
 	</bean>
-	
+
+
 	<!-- 配置静态资源路径 -->
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />

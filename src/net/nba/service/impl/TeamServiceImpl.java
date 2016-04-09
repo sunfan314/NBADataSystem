@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import net.nba.dao.BaseDao;
 import net.nba.dataSpider.TeamInfoSpider;
 import net.nba.model.Team;
-import net.nba.model.TeamMatchInfo;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.TeamService;
 
