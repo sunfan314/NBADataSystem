@@ -29,7 +29,11 @@ public class ImageDownloader {
 			writeImageToDisk(img, filePath, filename);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println(filename);
+			/*
+			 * 向日志文件中添加无法显示图片的的球员名称
+			 */
+			String log="Player "+filename+" img can not download";
+			MyLog.e(log);
 		}
 		
 

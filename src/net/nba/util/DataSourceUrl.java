@@ -6,7 +6,9 @@ public class DataSourceUrl {
 	
 	private static String TEAMSEASONRANKSURL = "http://nba.sports.sina.com.cn/league_order1.php?&dpc=1";//球队赛季联盟排行URL
 	
-	private static String PLAYERDETAILINFOURL = "http://nba.sports.sina.com.cn/star/";//球员信息页面URL
+	private static String PLAYERDETAILINFOURL = "http://nba.sports.sina.com.cn/player.php?id=";//球员信息页面URL
+	
+	private static String PLAYERLISTURL  = "http://nba.sports.sina.com.cn/players.php?dpc=1";//球员列表信息页面，用于获取球员id信息
 
 	public static String getTeamInfoURL(int teamId) {
 		/*
@@ -20,12 +22,16 @@ public class DataSourceUrl {
 		return TEAMSEASONRANKSURL;
 	}
 	
-	public static String getPlayerDetailInfoURL(String nameInEn){
+	public static String getPlayerDetailInfoURL(int id){
 		/*
-		 * 根据球员英文名获取球员信息URL
-		 * example:http://nba.sports.sina.com.cn/star/Jeff-Teague.shtml
+		 * 根据球员id获取球员信息URL
+		 * example:http://nba.sports.sina.com.cn/player.php?id=4624
 		 */
-		return PLAYERDETAILINFOURL+nameInEn+".shtml";
+		return PLAYERDETAILINFOURL+String.valueOf(id);
+	}
+	
+	public static String getPlayerListURL(){
+		return PLAYERLISTURL;
 	}
 	
 

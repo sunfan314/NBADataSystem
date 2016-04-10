@@ -7,11 +7,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
- * id			球员id	
+ * id			球员id（可根据id访问球员信息界面获取球员信息）
  * num			球员号码
  * teamId 		球员所属球队id
- * name			球员名	
- * nameInEn		球员英文名（用于获取球员链接）
+ * name			球员名(可用于获取球员id)	
  * pos			球员位置
  * height		球员身高（单位：米）
  * weight		球员体重（单位：公斤）
@@ -32,8 +31,6 @@ public class Player {
 	private int teamId;
 
 	private String name;
-
-	private String nameInEn;
 
 	private String pos;
 
@@ -77,14 +74,6 @@ public class Player {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getNameInEn() {
-		return nameInEn;
-	}
-
-	public void setNameInEn(String nameInEn) {
-		this.nameInEn = nameInEn;
 	}
 
 	public String getPos() {

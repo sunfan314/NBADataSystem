@@ -1,17 +1,25 @@
 package net.nba.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.springframework.stereotype.Service;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 
 import net.nba.dao.BaseDao;
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.model.Player;
+import net.nba.model.PlayerInfoDetail;
 import net.nba.service.PlayerService;
+import net.nba.util.FilePathManager;
+import net.nba.util.MyFileWriter;
+import net.nba.util.MyLog;
 
 @Service("playerService")
 public class PlayerServiceImpl implements PlayerService {
@@ -19,18 +27,40 @@ public class PlayerServiceImpl implements PlayerService {
 	private BaseDao<Player> playerDao;
 	
 	@Resource
+	private BaseDao<PlayerInfoDetail> playInfoDetailDao;
+	
+	@Resource
 	private PlayerInfoSpider playerInfoSpider;
 
 	@Override
 	public void updateTeamPlayers() {
 		// TODO Auto-generated method stub
-		List<Player> players=playerDao.find("from Player");
-		for (Player player : players) {//由于球员id自动生成无法追踪，所以更新数据前删除原有数据
-			playerDao.delete(player);
-		}
+		//更新球队阵容信息
 		List<Player> list=playerInfoSpider.getTeamPlayerList();
 		for (Player player : list) {
-			playerDao.save(player);
+			if(player.getId()==0){
+				String dataError="Can not get id of player: "+player.getName()+" from team "+player.getTeamId();
+				MyLog.e(dataError);//在日志文件中记录无法获取id的球员信息
+				
+			}else{
+				playerDao.saveOrUpdate(player);
+			}
+			
+		}
+	}
+	
+	@Override
+	public void updatePlayerInfoDetail() {
+		// TODO Auto-generated method stub
+		//更新球员详细信息，由于主键可追踪player表中的id字段，所以可在原有数据上进行更新
+		List<Integer> list=new ArrayList<Integer>();
+		List<Player> playerList=playerDao.find("from Player");
+		for (Player player : playerList) {
+			list.add(player.getId());
+		}
+		List<PlayerInfoDetail> playerInfoDetails=playerInfoSpider.getPlayerInfoDetail(list);
+		for (PlayerInfoDetail playerInfoDetail : playerInfoDetails) {
+			playInfoDetailDao.saveOrUpdate(playerInfoDetail);
 		}
 	}
 
@@ -45,7 +75,13 @@ public class PlayerServiceImpl implements PlayerService {
 		// TODO Auto-generated method stub
 		return playerDao.find("from Player");
 	}
-	
+
+	@Override
+	public PlayerInfoDetail getPlayerInfoDetail(int playeId) {
+		// TODO Auto-generated method stub
+		return playInfoDetailDao.get(PlayerInfoDetail.class,playeId);
+	}
+
 
 //	
 //	@Resource 
@@ -68,13 +104,7 @@ public class PlayerServiceImpl implements PlayerService {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//
-//	@Override
-//	public Player getPlayerInfo(int playerId) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
+
 //	@Override
 //	public Map<String, Object> getPlayerSeasonStatistics(int playerId) {
 //		// TODO Auto-generated method stub

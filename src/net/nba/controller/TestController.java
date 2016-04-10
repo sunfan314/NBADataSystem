@@ -9,6 +9,7 @@ import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.dataSpider.TeamInfoSpider;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
 import net.nba.model.Player;
+import net.nba.model.PlayerInfoDetail;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.PlayerService;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController {
 	@Resource
 	private TeamService teamService;
-	
+
 	@Resource
 	private PlayerService playerService;
 
@@ -30,19 +31,19 @@ public class TestController {
 	private PlayerInfoSpider playerInfoSpider;
 
 	@RequestMapping("/updateTeamInfos")
-	public @ResponseBody String updateTeamInfos(){
-		//更新球队基本信息
-		try{
+	public @ResponseBody String updateTeamInfos() {
+		// 更新球队基本信息
+		try {
 			teamService.updateTeamInfo();
 			return "Update TeamInfos Success!";
-		}catch(Exception e){
+		} catch (Exception e) {
 			return e.getMessage();
 		}
 	}
-	
+
 	@RequestMapping("/updateTeamSeasonRanks")
-	public @ResponseBody String updateTeamSeasonRanks(){
-		//更新球队赛季排行
+	public @ResponseBody String updateTeamSeasonRanks() {
+		// 更新球队赛季排行
 		try {
 			teamService.updateTeamSeasonRanks();
 			return "Update TeamSeasnoRanks Success!";
@@ -51,10 +52,10 @@ public class TestController {
 			return e.getMessage();
 		}
 	}
-	
+
 	@RequestMapping("/updateTeamPlayerList")
-	public @ResponseBody String getPlayerList(){
-		//更新球队阵容信息
+	public @ResponseBody String getPlayerList() {
+		// 更新球队阵容信息
 		try {
 			playerService.updateTeamPlayers();
 			return "Update TeamPlayers Success!";
@@ -63,13 +64,14 @@ public class TestController {
 			return e.getMessage();
 		}
 	}
-	
+
 	@RequestMapping("/downloadPlayerImgs")
-	public @ResponseBody String downloadPlayerImgs(){
-		List<String> list=new ArrayList<String>();
-		List<Player> players=playerService.getPlayers();
+	public @ResponseBody String downloadPlayerImgs(int teamId) {
+		// 下载球员图像文件，由于下载量较大，一次性完成容易发生超时错误，最好分批进行，此处按球队获取球员图像信息
+		List<Integer> list = new ArrayList<Integer>();
+		List<Player> players = playerService.getTeamPlayerList(teamId);
 		for (Player player : players) {
-			list.add(player.getNameInEn());
+			list.add(player.getId());
 		}
 		try {
 			playerInfoSpider.downloadPlayerPic(list);
@@ -78,7 +80,18 @@ public class TestController {
 			// TODO: handle exception
 			return e.getMessage();
 		}
-		
+
+	}
+
+	@RequestMapping("/updatePlayerInfoDetail")
+	public @ResponseBody String updatePlayerPlayerInfoDetai() {
+		try {
+			playerService.updatePlayerInfoDetail();
+			return "Update PlayerInfoDetail Success!";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return e.getMessage();
+		}
 	}
 
 }

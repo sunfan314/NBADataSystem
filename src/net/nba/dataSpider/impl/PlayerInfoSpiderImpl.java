@@ -8,23 +8,30 @@ import java.util.regex.Pattern;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import sun.launcher.resources.launcher;
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.model.Player;
+import net.nba.model.PlayerInfoDetail;
 import net.nba.util.DataSourceUrl;
+import net.nba.util.FilePathManager;
 import net.nba.util.ImageDownloader;
 import net.nba.util.WebPageReader;
 
 @Service("playerInfoSpider")
+/*
+ * 使用正则表达式爬取球员相关信息
+ */
 public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	private Pattern pattern;
 	private Matcher matcher;
-	private static String fileFolderPath = "/Users/sunfan314/Documents/workspace/NBADataSystem/WebContent/resources/playerImgs";// 图片存储路径
 
 	@Override
 	public List<Player> getTeamPlayerList() {
 		// TODO Auto-generated method stub
 		List<Player> list = new ArrayList<Player>();
-		int count = 1;
+		String urlStr1=DataSourceUrl.getPlayerListURL();
+		//包含球员名和id映射的网页缓存
+		StringBuffer webPageBuffer1 = WebPageReader.readWebPage(urlStr1);
 		for (int i = 1; i < 31; i++) {// 从各只球队网页阵容信息中依次获取球队球员信息
 			String urlStr = DataSourceUrl.getTeamInfoURL(i);
 			StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
@@ -41,8 +48,6 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 				matcher = pattern.matcher(str1);
 				while (matcher.find()) {
 					Player player = new Player();
-					player.setId(count);
-					count++;
 					player.setTeamId(i);
 					String str2 = matcher.group(2);
 					Pattern pattern1 = Pattern.compile("(<td>)(.*?)(</td>)");
@@ -92,16 +97,15 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 						}
 					}
 					pattern1 = Pattern
-							.compile("(<a href=\"http://nba.sports.sina.com.cn/star/)(.*?)(.shtml)");
-					matcher1 = pattern1.matcher(str2);
-					if (matcher1.find()) {// 获取球员英文名
-						player.setNameInEn(matcher1.group(2));
-					}
-					pattern1 = Pattern
 							.compile("(<a href)(.*?)(>)(.*?)(</a></td>)");
 					matcher1 = pattern1.matcher(str2);
 					if (matcher1.find()) {// 获取球员名
 						player.setName(matcher1.group(4));
+						/*
+						 * 根据球员名进一步获取球员id
+						 * 获取球员id网址URL:http://nba.sports.sina.com.cn/players.php?dpc=1
+						 */
+						player.setId(getPlayerId(matcher1.group(4),webPageBuffer1));
 					}
 					list.add(player);
 				}
@@ -111,11 +115,11 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	}
 
 	@Override
-	public void downloadPlayerPic(List<String> nameInEnList) {
+	public void downloadPlayerPic(List<Integer> idList) {
 		// TODO Auto-generated method stub
 		// 根据球员英文名访问球员信息页面下载球员图片
-		for (String name : nameInEnList) {
-			String urlStr = DataSourceUrl.getPlayerDetailInfoURL(name);
+		for (Integer id : idList) {
+			String urlStr = DataSourceUrl.getPlayerDetailInfoURL(id);
 			StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
 			pattern = Pattern
 					.compile("(.*)(<!-- 个人信息 begin -->)(.*?)(<!-- 个人信息 end -->)(.*)");
@@ -125,13 +129,132 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 				pattern = Pattern.compile("(.*)(<img src=\")(.*?)(\")(.*)");
 				matcher = pattern.matcher(str1);
 				if (matcher.matches()) {
-					ImageDownloader.downloadAndSaveImage(matcher.group(3),fileFolderPath, name);
+					ImageDownloader.downloadAndSaveImage(matcher.group(3),
+							FilePathManager.PLAYERIMGPATH, String.valueOf(id));
 				}
 			}
 		}
-		
-		
 
 	}
+
+	@Override
+	public List<PlayerInfoDetail> getPlayerInfoDetail(List<Integer> idList) {
+		// TODO Auto-generated method stub
+		// 根据球员英文名从网页获取球员详细信息列表
+		List<PlayerInfoDetail> list = new ArrayList<PlayerInfoDetail>();
+		for (Integer id : idList) {
+			PlayerInfoDetail player = new PlayerInfoDetail();
+			player.setId(id);// 设置球员id
+			String urlStr = DataSourceUrl.getPlayerDetailInfoURL(id);
+			StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
+			pattern = Pattern
+					.compile("(.*)(<!-- 个人信息 begin -->)(.*?)(<!-- 个人信息 end -->)(.*)");
+			matcher = pattern.matcher(webPageBuffer);
+			if (matcher.matches()) {
+				String str1 = matcher.group(3);
+				pattern = Pattern.compile("(<strong)(.*?)(>)(.*?)(</strong>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员名
+					player.setName(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern
+						.compile("(生　　日</td>	<td)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员生日
+					player.setBirthday(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern
+						.compile("(年　　龄</td>	<td)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员年龄
+					player.setAge(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern.compile("(出 生 地</td>	<)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员出生地
+					player.setBirthPlace(replaceEscapedCharacter(matcher
+							.group(4)));
+				}
+				pattern = Pattern.compile("(毕业学校</td>	<)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员大学
+					player.setCollege(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern.compile("(身　　高</td><)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员身高
+					player.setHeight(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern.compile("(体　　重</td><)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员体重
+					player.setWeight(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern
+						.compile("(进入 NBA</td>	<)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员进入NBA年份
+					player.setStartInNBA(replaceEscapedCharacter(matcher
+							.group(4)));
+				}
+				pattern = Pattern.compile("(NBA 球龄</td><)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员在NBA球龄
+					player.setYearInNBA(replaceEscapedCharacter(matcher
+							.group(4)));
+				}
+				pattern = Pattern.compile("(选秀情况</td><)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员选秀情况
+					player.setDraftStatus(replaceEscapedCharacter(matcher
+							.group(4)));
+				}
+				pattern = Pattern
+						.compile("(赛季最高分</td>      <)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员赛季最高分
+					player.setsHS(replaceEscapedCharacter(matcher.group(4)));
+				}
+				pattern = Pattern
+						.compile("(生涯最高分</td>      <)(.*?)(>)(.*?)(</td>)");
+				matcher = pattern.matcher(str1);
+				if (matcher.find()) {// 设置球员生涯最高分
+					player.setcHS(replaceEscapedCharacter(matcher.group(4)));
+				}
+			}
+			list.add(player);
+		}
+		return list;
+	}
+	
+	/*
+	 * 在网页：http://nba.sports.sina.com.cn/players.php?dpc=1中根据球员英文名获取球员id
+	 */
+	private int getPlayerId(String name,StringBuffer webPageBuffer) {
+		// TODO Auto-generated method stub
+		Pattern p=Pattern.compile("(.*)(<!-- 页面主要内容 begin -->)(.*?)(<!-- 页面主要内容 end -->)(.*)");
+		Matcher m=p.matcher(webPageBuffer);
+		if(m.matches()){
+			String str=m.group(3);
+			p=Pattern.compile("(<a href='player.php.id=)(.*?)('>)(.*?)(,)(.*?)(</a>)");
+			m=p.matcher(str);
+			while(m.find()){
+				if(replaceEscapedCharacter(m.group(4)).equals(name)){
+					//System.out.println(m.group(2));
+					return Integer.parseInt(m.group(2));
+				}
+			}			
+		}
+		return 0;
+	}
+
+	private String replaceEscapedCharacter(String str) {
+		// 去除String中的转义字符\r \n \t
+		String str1 = str.replaceAll("\r", "");
+		String str2 = str1.replaceAll("\n", "");
+		String str3 = str2.replaceAll("\t", "");
+		return str3;
+	}
+	
 
 }

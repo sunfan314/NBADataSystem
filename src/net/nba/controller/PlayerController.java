@@ -1,5 +1,6 @@
 package net.nba.controller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import net.nba.model.Player;
+import net.nba.model.PlayerInfoDetail;
 import net.nba.service.PlayerService;
+import net.nba.util.FilePathManager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,14 @@ public class PlayerController {
 		//获取某只球队的阵容信息
 		return playerService.getTeamPlayerList(teamId);
 	}
+	
+	@RequestMapping("/getPlayerInfoDetail")
+	public @ResponseBody PlayerInfoDetail getPlayerInfoDetail(int playerId){
+		//获取某位球员的详细信息
+		return playerService.getPlayerInfoDetail(playerId);
+	}
+	
+
 //	@RequestMapping("/getPlayerRanks")
 //	public @ResponseBody List<Map<String,Object>> getPlayerRanks(@RequestParam(required=false)Date date){
 //		//获取球员数据统计排行(得分、篮板、助攻、抢断)，每项排行选取前五名，传入日期参数时显示当日的排行，否则显示赛季排行

@@ -28,7 +28,11 @@ public class WebPageReader {
 	        } catch (MalformedURLException e) {
 	            e.printStackTrace();
 	        } catch (IOException e) {
-	            System.out.println("no response from web page:"+urlStr);
+	        	/*
+	        	 * URL重定向会导致无法读取网页信息
+	        	 */
+	        	String log="404 Error From Page:"+urlStr;
+	            MyLog.e(log);
 	        }
 	        return result;
 	}

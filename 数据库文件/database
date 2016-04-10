@@ -28,8 +28,7 @@ create table player(
 	id int primary key auto_increment,
 	num int not null,
 	teamId int not null,
-	name varchar(255) not null,
-	nameInEn varchar(255) not null,#球员英文名，需要借助该项数据访问球员详细信息页面
+	name varchar(255) not null,#球员名，可用于获取球员Id
 	pos varchar(255) not null,
 	height double not null,
 	weight double not null,
@@ -37,4 +36,21 @@ create table player(
 	birthday varchar(255) not null,
 	yearInNBA int not null,
 	constraint foreign key(teamId) references team(id)
+)default charset = 'utf8';
+
+
+create table player_info_detail(
+	id int primary key,
+	name varchar(255) not null,
+	birthday varchar(255) not null,
+	age varchar(255) not null,
+	birthPlace varchar(255) not null,
+	college varchar(255) not null,
+	height varchar(255) not null,
+	weight varchar(255) not null,
+	startInNBA varchar(255) not null,
+	yearInNBA varchar(255) not null,
+	draftStatus varchar(255) not null,
+	sHS varchar(255) not null,
+	cHS varchar(255) not null
 )default charset = 'utf8';
