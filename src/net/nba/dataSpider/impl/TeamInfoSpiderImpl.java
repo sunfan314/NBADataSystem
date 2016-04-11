@@ -18,6 +18,9 @@ import net.nba.util.DataSourceUrl;
 import net.nba.util.WebPageReader;
 
 @Service("teamInfoSpider")
+/*
+ * 从网页获取球队相关数据
+ */
 public class TeamInfoSpiderImpl implements TeamInfoSpider {
 	private Pattern pattern;
 	private Matcher matcher;

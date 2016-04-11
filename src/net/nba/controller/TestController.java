@@ -7,11 +7,14 @@ import javax.annotation.Resource;
 
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
+import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
+import net.nba.service.MatchService;
 import net.nba.service.PlayerService;
 import net.nba.service.TeamService;
 
@@ -26,6 +29,9 @@ public class TestController {
 
 	@Resource
 	private PlayerService playerService;
+	
+	@Resource 
+	private MatchService matchService;
 
 	@Resource
 	private PlayerInfoSpider playerInfoSpider;
@@ -85,11 +91,23 @@ public class TestController {
 
 	@RequestMapping("/updatePlayerInfoDetail")
 	public @ResponseBody String updatePlayerPlayerInfoDetai() {
+		//更新球员详细信息
 		try {
 			playerService.updatePlayerInfoDetail();
 			return "Update PlayerInfoDetail Success!";
 		} catch (Exception e) {
 			// TODO: handle exception
+			return e.getMessage();
+		}
+	}
+	
+	@RequestMapping("/updateSeasonMatchList")
+	public @ResponseBody String updateSeasonMatchList(){
+		//更新赛季比赛列表
+		try{
+			matchService.updateSeasonMatchList();
+			return "Update Season MatchList Success!";
+		}catch(Exception e){
 			return e.getMessage();
 		}
 	}

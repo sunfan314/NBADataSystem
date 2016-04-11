@@ -14,16 +14,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * id					比赛编号
+ * vId					客队id
  * visitingTeam			客队名
+ * hId					主队id
  * homeTeam				主队名
  * visitingScore   		客队得分
  * homeScore			主队得分
- * type					比赛类型（常规赛:0、季后赛:1）
- * season				赛季信息
+ * type					比赛类型（常规赛:0、季后赛:1、季前赛：2）
+ * season				赛季信息（例：2015-2016，一般赛季从10月开始季前赛，4月进入季后赛，6月决出总冠军）
  * date					比赛日期
  * time 				比赛结束时间
  */
@@ -34,7 +37,11 @@ public class Match {
 	@Id
 	private int id;
 
+	private int vId;
+
 	private String visitingTeam;
+
+	private int hId;
 
 	private String homeTeam;
 
@@ -44,9 +51,12 @@ public class Match {
 
 	private int type;
 
+	@JsonIgnore
 	private String season;
 
 	private String date;
+
+	private int year;
 
 	private String time;
 
@@ -58,12 +68,28 @@ public class Match {
 		this.id = id;
 	}
 
+	public int getvId() {
+		return vId;
+	}
+
+	public void setvId(int vId) {
+		this.vId = vId;
+	}
+
 	public String getVisitingTeam() {
 		return visitingTeam;
 	}
 
 	public void setVisitingTeam(String visitingTeam) {
 		this.visitingTeam = visitingTeam;
+	}
+
+	public int gethId() {
+		return hId;
+	}
+
+	public void sethId(int hId) {
+		this.hId = hId;
 	}
 
 	public String getHomeTeam() {
@@ -112,6 +138,14 @@ public class Match {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 	public String getTime() {

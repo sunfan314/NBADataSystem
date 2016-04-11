@@ -10,7 +10,10 @@ public class DataSourceUrl {
 
 	public static String PLAYERLISTURL = "http://nba.sports.sina.com.cn/players.php?dpc=1";// 球员列表信息页面，用于获取球员id信息
 
-	public static String MATCHLISTURL = "http://nba.sports.sina.com.cn/match_result.php?day=all";// 比赛列表信息页面
+	/*
+	 * 比赛列表信息页面，example:http://nba.sports.sina.com.cn/match_result.php?day=0&years=2015&months=10&teams=
+	 */
+	private static String SEASONMATCHLISTURL = "http://nba.sports.sina.com.cn/match_result.php?day=0&years=PARAM1&months=PARAM2&teams=";
 
 	public static String getTeamInfoURL(int teamId) {
 		/*
@@ -25,6 +28,15 @@ public class DataSourceUrl {
 		 * example:http://nba.sports.sina.com.cn/player.php?id=4624
 		 */
 		return PLAYERDETAILINFOURL + String.valueOf(id);
+	}
+	
+	public static String getSeasonMatchListURL(int year,int month){
+		String str=SEASONMATCHLISTURL.replaceAll("PARAM1", String.valueOf(year));
+		if(month<10){
+			return str.replaceAll("PARAM2", "0"+String.valueOf(month));
+		}else{
+			return str.replaceAll("PARAM2", String.valueOf(month));
+		}
 	}
 
 }
