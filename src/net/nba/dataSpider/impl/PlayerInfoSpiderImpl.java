@@ -29,7 +29,7 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	public List<Player> getTeamPlayerList() {
 		// TODO Auto-generated method stub
 		List<Player> list = new ArrayList<Player>();
-		String urlStr1=DataSourceUrl.getPlayerListURL();
+		String urlStr1=DataSourceUrl.PLAYERLISTURL;
 		//包含球员名和id映射的网页缓存
 		StringBuffer webPageBuffer1 = WebPageReader.readWebPage(urlStr1);
 		for (int i = 1; i < 31; i++) {// 从各只球队网页阵容信息中依次获取球队球员信息

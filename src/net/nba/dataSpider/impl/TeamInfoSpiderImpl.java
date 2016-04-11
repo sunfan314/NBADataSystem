@@ -85,7 +85,7 @@ public class TeamInfoSpiderImpl implements TeamInfoSpider {
 		// TODO Auto-generated method stub
 		// 获取球队赛季联盟排行信息
 		List<TeamSeasonRank> ranks = new ArrayList<TeamSeasonRank>();
-		String urlStr = DataSourceUrl.getTeamSeasonRanks();
+		String urlStr = DataSourceUrl.TEAMSEASONRANKSURL;
 		StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
 		pattern = Pattern
 				.compile("(.*)(<table width=\"950\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"1\" class=\"text\">)(.*?)(</table>)(.*)");

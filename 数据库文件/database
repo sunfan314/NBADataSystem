@@ -54,3 +54,15 @@ create table player_info_detail(
 	sHS varchar(255) not null,
 	cHS varchar(255) not null
 )default charset = 'utf8';
+
+create table match_info(
+	id int primary key,
+	visitingTeam varchar(255) not null,
+	homeTeam varchar(255) not null,
+	visitingScore int not null,
+	homeScore int not null,
+	type int default 0,#0代表常规赛，1代表季后赛
+	season varchar(255) not null,
+	date varchar(255) not null,
+	time varchar(255) not null
+)default charset = 'utf8';
