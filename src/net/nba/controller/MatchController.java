@@ -16,14 +16,14 @@ public class MatchController {
 	@Resource
 	private MatchService matchService;
 	
-	@RequestMapping("/getLatestMatchInfos")
+	@RequestMapping("/getLatestMatchList")
 	public @ResponseBody List<Match> getLatestMatchs(){
 		//获取最近50场比赛的基本信息
 		return matchService.getLatestMatchs();
 	}
 	
-	@RequestMapping("/getTeamMatchInfos")
-	public @ResponseBody List<Match> getTeamMatchInfos(int teamId){
+	@RequestMapping("/getTeamMatchList")
+	public @ResponseBody List<Match> getTeamMatchLists(int teamId){
 		//获取当前赛季某只球队的所有比赛信息
 		return matchService.getTeamMatchs(teamId);
 	}
