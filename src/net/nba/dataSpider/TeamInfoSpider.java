@@ -5,10 +5,20 @@ import java.util.List;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 
+/**
+ * @author sunfan314
+ *
+ */
 public interface TeamInfoSpider {
-	
-	public List<Team> getTeamInfoList();//从网页获取球队基本信息,基本数据的更新周期较长，一般一个赛季更新一次
-	
-	public List<TeamSeasonRank> getTeamSeasonRanks();//从网页获取球队赛季联盟排行，球队赛季排行更新周期较短，在一场比赛过后就要进行更新
+
+	/**
+	 * @return 从网页获得的球队基本信息
+	 */
+	public List<Team> getTeamInfoList();
+
+	/**
+	 * @return 从网页获取的联盟赛季排行
+	 */
+	public List<TeamSeasonRank> getTeamSeasonRanks();
 
 }

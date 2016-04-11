@@ -17,7 +17,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
+/**
+ * @author sunfan314
  * id					比赛编号
  * vId					客队id
  * visitingTeam			客队名

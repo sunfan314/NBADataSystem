@@ -14,6 +14,10 @@ import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.TeamService;
 
+/**
+ * @author sunfan314
+ *
+ */
 @Service("teamService")
 public class TeamServiceImpl implements TeamService {
 	@Resource
@@ -28,7 +32,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void updateTeamInfo() {
 		// TODO Auto-generated method stub
-		// 写入球队信息（如果已经写入则更新变化部分信息）
 		List<Team> list = teamInfoSpider.getTeamInfoList();
 		for (Team team : list) {
 			teamDao.saveOrUpdate(team);
@@ -38,7 +41,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void updateTeamSeasonRanks() {
 		// TODO Auto-generated method stub
-		//更新球队赛季排行信息
 		List<TeamSeasonRank> list=teamInfoSpider.getTeamSeasonRanks();
 		for (TeamSeasonRank rank : list) {
 			teamRankDao.saveOrUpdate(rank);
@@ -49,14 +51,12 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public List<Team> getTeams() {
 		// TODO Auto-generated method stub
-		//获取球队信息列表
 		return teamDao.find("from Team");
 	}
 
 	@Override
 	public Team getTeamInfos(int teamId) {
 		// TODO Auto-generated method stub
-		//根据id获取某只球队的信息
 		return teamDao.get(Team.class, teamId);
 	}
 

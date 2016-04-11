@@ -17,10 +17,11 @@ import net.nba.model.TeamSeasonRank;
 import net.nba.util.DataSourceUrl;
 import net.nba.util.WebPageReader;
 
-@Service("teamInfoSpider")
-/*
- * 从网页获取球队相关数据
+/**
+ * @author sunfan314
+ *从网页获取球队信息的爬虫工具
  */
+@Service("teamInfoSpider")
 public class TeamInfoSpiderImpl implements TeamInfoSpider {
 	private Pattern pattern;
 	private Matcher matcher;

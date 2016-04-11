@@ -6,17 +6,37 @@ import java.util.Map;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 
+/**
+ * @author sunfan314
+ *
+ */
 public interface TeamService {
 
-	public void updateTeamInfo();//写入球队信息（如果已经写入则更新变化部分信息）
+	/**
+	 * 更新球队信息
+	 */
+	public void updateTeamInfo();
 	
-	public void updateTeamSeasonRanks();//更新球队赛季排行数据（在每场比赛数据提交之后需要更新）
+	/**
+	 * 更新球队赛季排行数据（在每场比赛数据提交之后需要更新）
+	 */
+	public void updateTeamSeasonRanks();
 	
-	public List<Team> getTeams();//获取球队基本信息列表
+	/**
+	 * @return	球队基本信息列表
+	 */
+	public List<Team> getTeams();
 	
-	public Team getTeamInfos(int teamId);//获取某只球队基本信息
+	/**
+	 * @param teamId	球队id
+	 * @return	某只球队基本信息
+	 */
+	public Team getTeamInfos(int teamId);
 
-	public List<TeamSeasonRank> getTeamSeasonRanks();//获取球队赛季排行信息
+	/**
+	 * @return	球队赛季排行信息
+	 */
+	public List<TeamSeasonRank> getTeamSeasonRanks();
 //
 //	public Map<String, Object> getTeamStatistics(int teamId);
 //

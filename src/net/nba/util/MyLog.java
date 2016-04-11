@@ -2,11 +2,11 @@ package net.nba.util;
 
 import com.sun.jndi.url.dns.dnsURLContext;
 
+/**
+ * @author sunfan314
+ *在日志文件TestLog中记录日志信息
+ */
 public class MyLog {
-	/*
-	 * 在日志文件TestLog中记录日志信息
-	 */
-
 	public static void e(String info) {
 		MyFileWriter.appendToFile(info, FilePathManager.LOGPATH);
 	}

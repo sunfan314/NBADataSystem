@@ -17,20 +17,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @author sunfan314
+ *
+ */
 @Controller
 public class PlayerController {
 	@Resource
 	private PlayerService playerService;
 	
+	/**
+	 * @param teamId
+	 * @return	某只球队的球员列表
+	 */
 	@RequestMapping("/getTeamPlayerList")
 	public @ResponseBody List<Player> getTeamPlayerList(int teamId){
-		//获取某只球队的阵容信息
 		return playerService.getTeamPlayerList(teamId);
 	}
 	
+	/**
+	 * @param playerId
+	 * @return	某位球员的详细信息
+	 */
 	@RequestMapping("/getPlayerInfoDetail")
 	public @ResponseBody PlayerInfoDetail getPlayerInfoDetail(int playerId){
-		//获取某位球员的详细信息
 		return playerService.getPlayerInfoDetail(playerId);
 	}
 	

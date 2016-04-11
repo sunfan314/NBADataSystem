@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+/**
+ * @author sunfan314
+ *
+ */
 public class MyFileWriter {
 
 	public static void appendToFile(String content, String filePath) {

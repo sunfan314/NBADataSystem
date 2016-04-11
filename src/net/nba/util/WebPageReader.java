@@ -8,6 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * @author sunfan314
+ *
+ */
 public class WebPageReader {
 	
 	public static StringBuffer readWebPage(String urlStr){

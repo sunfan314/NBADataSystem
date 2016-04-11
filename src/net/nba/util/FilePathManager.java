@@ -1,5 +1,9 @@
 package net.nba.util;
 
+/**
+ * @author sunfan314
+ *文件路径管理
+ */
 public class FilePathManager {
 	/*
 	 * 测试日志文件存储路径

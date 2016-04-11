@@ -69,3 +69,28 @@ create table match_info(
 	year int not null,
 	time varchar(255) not null
 )default charset = 'utf8';
+
+create table player_match_statistics(
+	matchId int not null,
+	playerId int not null,
+	playerName varchar(255) not null,
+	teamId int not null,
+	isFirst int not null,#首发球员：0，替补球员：1
+	time int not null,
+	twoHit int not null,
+	twoShot int not null,
+	threeHit int not null,
+	threeShot int not null,
+	freeThrowHit int not null,
+	freeThreeShot int not null,
+	offReb int not null,
+	defReb int not null,
+	totReb int not null,
+	ass int not null,
+	steal int not null,
+	blockShot int not null,
+	turnOver int not null,
+	foul int not null,
+	score int not null,
+	constraint primary key(matchId,playerId)
+)default charset = "utf8";

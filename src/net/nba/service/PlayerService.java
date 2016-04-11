@@ -7,17 +7,38 @@ import java.util.Map;
 import net.nba.model.Player;
 import net.nba.model.PlayerInfoDetail;
 
+/**
+ * @author sunfan314
+ *
+ */
 public interface PlayerService {
 	
-	public void updateTeamPlayers();//写入球队阵容信息
+	/**
+	 * 写入球队阵容信息
+	 */
+	public void updateTeamPlayers();
 	
-	public void updatePlayerInfoDetail();//写入球员详细信息
+	/**
+	 * 写入球员详细信息
+	 */
+	public void updatePlayerInfoDetail();
 	
-	public List<Player> getTeamPlayerList(int teamId);//获取球队阵容列表
+	/**
+	 * @param teamId
+	 * @return	球队阵容列表
+	 */
+	public List<Player> getTeamPlayerList(int teamId);
 	
-	public List<Player> getPlayers();//获取所有球员列表
+	/**
+	 * @return	所有球员列表
+	 */
+	public List<Player> getPlayers();
 	
-	public PlayerInfoDetail getPlayerInfoDetail(int playeId);//获取球员详细信息
+	/**
+	 * @param playeId	球员id
+	 * @return	球员详细信息
+	 */
+	public PlayerInfoDetail getPlayerInfoDetail(int playeId);
 
 //	List<Map<String, Object>> getSeasonPlayerRanks();
 //

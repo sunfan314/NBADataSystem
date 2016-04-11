@@ -6,7 +6,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
+/**
+ * @author sunfan314
  * id			球员id（可根据id访问球员信息界面获取球员信息）
  * num			球员号码
  * teamId 		球员所属球队id
@@ -18,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * birthday 	球员生日（例：1993-3-3）
  * yearInNBA	球员NBA球龄
  */
-
 @Entity
 @Table(name = "player")
 @JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })

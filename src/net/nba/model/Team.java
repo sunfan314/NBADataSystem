@@ -1,24 +1,13 @@
 package net.nba.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
- * 球队基本数据
- * id				球队id
+/**
+ * @author sunfan314
+ *id				球队id
  * name				球队名
  * city				球队所在城市
  * league			球队所在东西部信息

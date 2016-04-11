@@ -21,6 +21,10 @@ import net.nba.util.FilePathManager;
 import net.nba.util.MyFileWriter;
 import net.nba.util.MyLog;
 
+/**
+ * @author sunfan314
+ *
+ */
 @Service("playerService")
 public class PlayerServiceImpl implements PlayerService {
 	@Resource
@@ -35,7 +39,6 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void updateTeamPlayers() {
 		// TODO Auto-generated method stub
-		//更新球队阵容信息
 		List<Player> list=playerInfoSpider.getTeamPlayerList();
 		for (Player player : list) {
 			if(player.getId()==0){
@@ -52,7 +55,6 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void updatePlayerInfoDetail() {
 		// TODO Auto-generated method stub
-		//更新球员详细信息，由于主键可追踪player表中的id字段，所以可在原有数据上进行更新
 		List<Integer> list=new ArrayList<Integer>();
 		List<Player> playerList=playerDao.find("from Player");
 		for (Player player : playerList) {

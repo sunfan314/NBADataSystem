@@ -17,10 +17,11 @@ import net.nba.util.FilePathManager;
 import net.nba.util.ImageDownloader;
 import net.nba.util.WebPageReader;
 
-@Service("playerInfoSpider")
-/*
- * 使用正则表达式爬取球员相关信息
+/**
+ * @author sunfan314
+ *从网页爬取球员数据的爬虫工具
  */
+@Service("playerInfoSpider")
 public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	private Pattern pattern;
 	private Matcher matcher;

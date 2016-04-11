@@ -8,15 +8,23 @@ import javax.annotation.Resource;
 import net.nba.dao.BaseDao;
 import net.nba.dataSpider.MatchInfoSpider;
 import net.nba.model.Match;
+import net.nba.model.PlayerMatchStatistics;
 import net.nba.service.MatchService;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * @author sunfan314
+ *
+ */
 @Service("matchService")
 public class MatchServiceImpl implements MatchService{
 	
 	@Resource
 	private BaseDao<Match> matchDao;
+	
+	@Resource
+	private BaseDao<PlayerMatchStatistics> playerMatchStatisticsDao;
 	
 	@Resource
 	private MatchInfoSpider matchInfoSpider;
@@ -28,6 +36,17 @@ public class MatchServiceImpl implements MatchService{
 		for (Match match : matchs) {
 			matchDao.saveOrUpdate(match);
 		}
+	}
+	
+	@Override
+	public void updatePlayerMatchStatistics() {
+		// TODO Auto-generated method stub
+		List<Integer> matchIdList=new ArrayList<Integer>();
+		List<Match> matchList=matchDao.find("from Match");
+		for (Match match : matchList) {
+			matchIdList.add(match.gethId());
+		}
+		//List<PlayerMatchStatistics> list=
 	}
 
 	@Override
@@ -50,6 +69,8 @@ public class MatchServiceImpl implements MatchService{
 		List<Match> list=matchDao.find("from Match where vId = ? or hId = ?",params);
 		return list;
 	}
+
+	
 
 //	@Override
 //	public MatchInfo getMatchInfo(int matchId) {

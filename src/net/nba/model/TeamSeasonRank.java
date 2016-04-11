@@ -6,8 +6,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
- * teamId		球队id
+
+/**
+ * @author sunfan314
+ *teamId		球队id
  * rank			联盟排名
  * name 		球队名	
  * league 		球队所在联盟（0代表东部，1代表西部）

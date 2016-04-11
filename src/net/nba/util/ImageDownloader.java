@@ -11,6 +11,10 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author sunfan314
+ *
+ */
 public class ImageDownloader {
 	/*
 	 * 根据url下载图片存储到本地

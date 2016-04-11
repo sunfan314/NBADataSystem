@@ -6,7 +6,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
+/**
+ * @author sunfan314
  * id				球员id
  * name				球员名
  * birthday			生日
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * sHS				赛季最高分
  * cHS				生涯最高分
  */
-
 @Entity
 @Table(name = "player_info_detail")
 @JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })

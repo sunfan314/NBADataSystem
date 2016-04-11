@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 
 import net.nba.dataSpider.MatchInfoSpider;
 import net.nba.model.Match;
+import net.nba.model.PlayerMatchStatistics;
 import net.nba.util.CommonDataManager;
 import net.nba.util.DataSourceUrl;
 import net.nba.util.WebPageReader;
 
-@Service("matchInfoSpider")
-/*
- * 从网页获取比赛相关数据
+/**
+ * @author sunfan314
+ *从网页爬取比赛信息（比赛基本信息、球队比赛数据统计、球员比赛数据统计等）的爬虫工具
  */
+@Service("matchInfoSpider")
+
 public class MatchInfoSpiderImpl implements MatchInfoSpider{
 	private Pattern pattern;
 	private Matcher matcher;
@@ -48,10 +51,25 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider{
 		return list;
 	}
 	
+	@Override
+	public List<PlayerMatchStatistics> getPlayerMatchStatistics(
+			List<Integer> matchIdList) {
+		// TODO Auto-generated method stub
+		
+		for (Integer matchId : matchIdList) {
+			
+		}
+		return null;
+	}
+	
+	/**
+	 * @param year
+	 * @param month
+	 * @return	获取某年某月已完结比赛列表
+	 */
 	private List<Match> getMonthMatchList(int year,int month){
-		//获取某月比赛列表
 		List<Match> list=new ArrayList<Match>();
-		String urlStr=DataSourceUrl.getSeasonMatchListURL(year, month);
+		String urlStr=DataSourceUrl.getMatchListURL(year, month);
 		StringBuffer webPageBuffer=WebPageReader.readWebPage(urlStr);
 		pattern=Pattern.compile("(.*)(<!-- 赛程内容开始 -->)(.*?)(<!-- 赛程内容end-->)(.*)");
 		matcher=pattern.matcher(webPageBuffer);
@@ -120,5 +138,8 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider{
 		}
 		return list;
 	}
+
+	
+	
 
 }

@@ -4,6 +4,7 @@ import java.io.FileWriter;
 
 import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
+import net.nba.service.impl.MatchServiceImpl;
 import net.nba.util.MyFileWriter;
 
 public class Test {

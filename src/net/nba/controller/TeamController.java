@@ -15,26 +15,37 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @author sunfan314
+ *
+ */
 @Controller
 public class TeamController {
 	@Resource
 	private TeamService teamService;
 
+	/**
+	 * @return	联盟球队列表
+	 */
 	@RequestMapping("/getTeams")
 	public @ResponseBody List<Team> getTeams() {
-		// 获取所有球队基本信息列表
 		return teamService.getTeams();
 	}
 
+	/**
+	 * @param teamId
+	 * @return	某只球队基本信息
+	 */
 	@RequestMapping("/getTeamInfos")
 	public @ResponseBody Team getTeamInfos(int teamId) {
-		// 获取某只球队基本信息
 		return teamService.getTeamInfos(teamId);
 	}
 	
+	/**
+	 * @return	球队赛季排行列表
+	 */
 	@RequestMapping("/getTeamSeasonRanks")
 	public @ResponseBody List<TeamSeasonRank> getTeamSeasonRanks(){
-		//获取球队赛季排行，包含胜场、负场及胜场差
 		return teamService.getTeamSeasonRanks();
 	}
 	
