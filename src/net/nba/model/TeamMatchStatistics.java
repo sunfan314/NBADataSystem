@@ -8,12 +8,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * @author sunfan314
+ * @author sunfan314 
  * matchId			比赛id
- * playerId			球员id
- * playerName		球员名
  * teamId			球员所在球队id
- * isFirst			是否首发(0代表首发，1代表替补)
+ * ifHome			是否主场球队（0代表客场，1代表主场）
  * time 			上场时间
  * twoHit			两分球命中
  * twoShot			两分球出手次数
@@ -32,20 +30,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * score			得分
  */
 @Entity
-@Table(name = "player_match_statistics")
-@IdClass(net.nba.model.PlayerMatchStatisticsPK.class)
+@Table(name = "team_match_statistics")
+@IdClass(net.nba.model.TeamMatchStatisticsPK.class)
 @JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
-public class PlayerMatchStatistics {
+public class TeamMatchStatistics {
 	@Id
 	private int matchId;
 	@Id
-	private int playerId;
-
-	private String playerName;
-
 	private int teamId;
-
-	private int isFirst;
+	
+	private int ifHome;
 
 	private int time;
 
@@ -78,29 +72,13 @@ public class PlayerMatchStatistics {
 	private int foul;
 
 	private int score;
-	
+
 	public int getMatchId() {
 		return matchId;
 	}
 
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
-	}
-
-	public int getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
 	}
 
 	public int getTeamId() {
@@ -110,13 +88,13 @@ public class PlayerMatchStatistics {
 	public void setTeamId(int teamId) {
 		this.teamId = teamId;
 	}
-
-	public int getIsFirst() {
-		return isFirst;
+	
+	public int getIfHome() {
+		return ifHome;
 	}
 
-	public void setIsFirst(int isFirst) {
-		this.isFirst = isFirst;
+	public void setIfHome(int ifHome) {
+		this.ifHome = ifHome;
 	}
 
 	public int getTime() {
@@ -167,7 +145,6 @@ public class PlayerMatchStatistics {
 		this.freeThrowHit = freeThrowHit;
 	}
 
-	
 	public int getFreeThrowShot() {
 		return freeThrowShot;
 	}

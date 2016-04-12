@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import net.nba.model.Match;
 import net.nba.model.PlayerMatchStatistics;
+import net.nba.model.TeamMatchStatistics;
 import net.nba.service.MatchService;
 
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,17 @@ public class MatchController {
 	public @ResponseBody List<PlayerMatchStatistics> getPlayerMatchStatistics(int matchId){
 		return matchService.getPlayerMatchStatistics(matchId);
 	}
+	
+	/**
+	 * @param matchId
+	 * @return	某场比赛的球队统计数据
+	 */
+	@RequestMapping("/getTeamMatchStatistics")
+	public @ResponseBody List<TeamMatchStatistics> getTeamMatchStatistics(int matchId){
+		return matchService.getTeamMatchStatistics(matchId);
+	}
+	
+	//@RequestMapping(/"")
 	
 	
 

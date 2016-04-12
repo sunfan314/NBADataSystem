@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.nba.dao.BaseDao;
 import net.nba.dataSpider.MatchInfoSpider;
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.dataSpider.TeamInfoSpider;
@@ -15,6 +16,7 @@ import net.nba.model.Player;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.Team;
+import net.nba.model.TeamMatchStatistics;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.MatchService;
 import net.nba.service.PlayerService;
@@ -30,6 +32,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class TestController {
+	@Resource
+	private BaseDao<Match> baseDao;
+	
+	@Resource
+	private BaseDao<TeamMatchStatistics> teamStatisticsDao;
+	
 	@Resource
 	private TeamService teamService;
 
@@ -144,7 +152,7 @@ public class TestController {
 	 * @return
 	 * 更新球员比赛统计数据
 	 */
-	@RequestMapping("/UpdatePlayerMatchStatistics")
+	@RequestMapping("/updatePlayerMatchStatistics")
 	public @ResponseBody String updatePlayerMatchStatistics(){
 		try {
 			matchService.updatePlayerMatchStatistics();
@@ -155,9 +163,28 @@ public class TestController {
 		}
 	}
 	
-//	@RequestMapping("test")
-//	public @ResponseBody List<PlayerMatchStatistics> getList(){
-//		return matchInfoSpider.getPlayerMatchStatistics(null);
-//	}
+	/**
+	 * @return
+	 * 更新球队比赛统计数据
+	 */
+	@RequestMapping("/updateTeamMatchStatistics")
+	public @ResponseBody String updateTeamMatchStatistics(){
+		try {
+			matchService.updateTeamMatchStatistics();
+			return "Update Team-Match-Statistics Success!";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+	
+	@RequestMapping("test")
+	public @ResponseBody List<TeamMatchStatistics> getList(){
+		List<Integer> list=new ArrayList<Integer>();
+		list.add(2016012327);
+		return matchInfoSpider.getTeamMatchStatistics(list);
+		
+	}
 
 }

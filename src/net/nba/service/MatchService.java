@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.nba.model.Match;
 import net.nba.model.PlayerMatchStatistics;
+import net.nba.model.TeamMatchStatistics;
 
 /**
  * @author sunfan314
@@ -20,6 +21,11 @@ public interface MatchService {
 	 *更新球员比赛统计数据 
 	 */
 	public void updatePlayerMatchStatistics();
+	
+	/**
+	 * 更新球队比赛统计数据 
+	 */
+	public void updateTeamMatchStatistics();
 
 	/**
 	 * @return	最近50场比赛的记录列表
@@ -38,7 +44,12 @@ public interface MatchService {
 	 */
 	public List<PlayerMatchStatistics> getPlayerMatchStatistics(int matchId);
 
-	
+	/**
+	 * @param matchId
+	 * @return	某场比赛的球队统计数据
+	 */
+	public List<TeamMatchStatistics> getTeamMatchStatistics(int matchId);
+
 
 //	MatchInfo getMatchInfo(int matchId);
 

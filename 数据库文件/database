@@ -94,3 +94,26 @@ create table player_match_statistics(
 	score int not null,
 	constraint primary key(matchId,playerId)
 )default charset = "utf8";
+
+create table team_match_statistics(
+	matchId int not null,
+	teamId int not null,
+	ifHome int not null,#0代表客场球队，1代表主场球队
+	time int not null,
+	twoHit int not null,
+	twoShot int not null,
+	threeHit int not null,
+	threeShot int not null,
+	freeThrowHit int not null,
+	freeThrowShot int not null,
+	offReb int not null,
+	defReb int not null,
+	totReb int not null,
+	ass int not null,
+	steal int not null,
+	blockShot int not null,
+	turnOver int not null,
+	foul int not null,
+	score int not null,
+	constraint primary key(matchId,playerId)
+)default charset = "utf8";

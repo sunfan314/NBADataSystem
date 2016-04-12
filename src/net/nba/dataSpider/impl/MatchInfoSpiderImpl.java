@@ -9,11 +9,14 @@ import javax.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.stereotype.Service;
 
+import sun.print.resources.serviceui;
 import net.nba.dataSpider.MatchInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.PlayerMatchStatistics;
+import net.nba.model.TeamMatchStatistics;
 import net.nba.util.CommonDataManager;
 import net.nba.util.DataSourceUrl;
+import net.nba.util.MyLog;
 import net.nba.util.WebPageReader;
 
 /**
@@ -57,43 +60,95 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 		// TODO Auto-generated method stub
 		List<PlayerMatchStatistics> list = new ArrayList<PlayerMatchStatistics>();
 		for (Integer matchId : matchIdList) {
-			String urlStr = DataSourceUrl.getMatchStatisticsURL(2016041024);
-			StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
-			pattern = Pattern
-					.compile("(<a href=\"team.php.id=)(.*?)(\" target)(.*?)(class=tlogo)");
-			matcher = pattern.matcher(webPageBuffer);
-			int visitingTeamId = -1;
-			int homeTeamId = -1;
-			if (matcher.find()) {// 获取客队id
-				visitingTeamId = Integer.parseInt(matcher.group(2));
-			}
-			if (matcher.find()) {// 获取主队id
-				homeTeamId = Integer.parseInt(matcher.group(2));
-			}
-			pattern = Pattern
-					.compile("(<table width=\"702\" border=\"0\" align=\"center\" cellpadding=\"0\")(.*?)(</table>)");
-			matcher = pattern.matcher(webPageBuffer);
-			if (matcher.find()) {// 客队球员技术统计
-				List<PlayerMatchStatistics> list1 = grabPlayerStatistics(matcher
-						.group(2));
-				for (PlayerMatchStatistics statistics : list1) {
-					statistics.setTeamId(visitingTeamId);// 设置球队id
-					statistics.setMatchId(matchId);//设置比赛id
-					list.add(statistics);
+			try {
+				String urlStr = DataSourceUrl.getMatchStatisticsURL(matchId);
+				StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
+				pattern = Pattern
+						.compile("(<a href=\"team.php.id=)(.*?)(\" target)(.*?)(class=tlogo)");
+				matcher = pattern.matcher(webPageBuffer);
+				int visitingTeamId = -1;
+				int homeTeamId = -1;
+				if (matcher.find()) {// 获取客队id
+					visitingTeamId = Integer.parseInt(matcher.group(2));
 				}
-			}
-			if (matcher.find()) {// 主队球员技术统计
-				List<PlayerMatchStatistics> list1 = grabPlayerStatistics(matcher
-						.group(2));
-				for (PlayerMatchStatistics statistics : list1) {
-					statistics.setTeamId(homeTeamId);// 设置球队id
-					statistics.setMatchId(matchId);//设置比赛id
-					list.add(statistics);
+				if (matcher.find()) {// 获取主队id
+					homeTeamId = Integer.parseInt(matcher.group(2));
 				}
+				pattern = Pattern
+						.compile("(<table width=\"702\" border=\"0\" align=\"center\" cellpadding=\"0\")(.*?)(</table>)");
+				matcher = pattern.matcher(webPageBuffer);
+				if (matcher.find()) {// 客队球员技术统计
+					List<PlayerMatchStatistics> list1 = grabPlayerStatistics(matcher
+							.group(2));
+					for (PlayerMatchStatistics statistics : list1) {
+						statistics.setTeamId(visitingTeamId);// 设置球队id
+						statistics.setMatchId(matchId);//设置比赛id
+						list.add(statistics);
+					}
+				}
+				if (matcher.find()) {// 主队球员技术统计
+					List<PlayerMatchStatistics> list1 = grabPlayerStatistics(matcher
+							.group(2));
+					for (PlayerMatchStatistics statistics : list1) {
+						statistics.setTeamId(homeTeamId);// 设置球队id
+						statistics.setMatchId(matchId);//设置比赛id
+						list.add(statistics);
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				MyLog.e("Grab PlayerMatchStatistics Data Error:", "matchId:"+matchId);
 			}
 		}
 		return list;
 	}
+	
+	@Override
+	public List<TeamMatchStatistics> getTeamMatchStatistics(
+			List<Integer> matchIdList) {
+		// TODO Auto-generated method stub
+		List<TeamMatchStatistics> list=new ArrayList<TeamMatchStatistics>();
+		for (Integer matchId : matchIdList) {
+			try {
+				String urlStr = DataSourceUrl.getMatchStatisticsURL(matchId);
+				StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
+				pattern = Pattern
+						.compile("(<a href=\"team.php.id=)(.*?)(\" target)(.*?)(class=tlogo)");
+				matcher = pattern.matcher(webPageBuffer);
+				int visitingTeamId = -1;
+				int homeTeamId = -2;
+				if (matcher.find()) {// 获取客队id
+					visitingTeamId = Integer.parseInt(matcher.group(2));
+				}
+				if (matcher.find()) {// 获取主队id
+					homeTeamId = Integer.parseInt(matcher.group(2));
+				}
+				pattern = Pattern
+						.compile("(<table width=\"702\" border=\"0\" align=\"center\" cellpadding=\"0\")(.*?)(</table>)");
+				matcher = pattern.matcher(webPageBuffer);
+				if (matcher.find()) {// 客队数据统计
+					TeamMatchStatistics statistics=grabTeamMatchStatistics(matcher.group(2));
+					statistics.setMatchId(matchId);
+					statistics.setTeamId(visitingTeamId);
+					statistics.setIfHome(0);
+					list.add(statistics);
+				}
+				if (matcher.find()) {// 主队数据统计
+					TeamMatchStatistics statistics=grabTeamMatchStatistics(matcher.group(2));
+					statistics.setMatchId(matchId);
+					statistics.setTeamId(homeTeamId);
+					statistics.setIfHome(1);
+					list.add(statistics);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				MyLog.e("Grab TeamMatchStatistics Data Error!","matchId:"+matchId);
+			}
+			
+		}
+		return list;
+	}
+
 
 	/**
 	 * @param year
@@ -126,7 +181,7 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 					if (matcher1.matches()) {
 						String str3 = matcher1.group(3);
 						String[] temp = str3.split("\\s+");
-						if (temp[1].equals("未赛")) {// 跳过尚未开始的比赛
+						if (temp[1].equals("未赛")||temp[1].equals("延期")) {// 跳过尚未开始的比赛
 							continue;
 						}
 						Match match = new Match();
@@ -142,7 +197,10 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 								match.setType(1);
 
 							} else if (matcher1.group(2).equals("季前赛")) {
-								match.setType(2);
+								/*
+								 * 由于季前赛信息较为混乱，所以不计入比赛数据
+								 */
+								continue;
 							}
 						}
 						pattern1 = Pattern
@@ -280,6 +338,70 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 	
 	/**
 	 * @param str
+	 * @return	从网页源码片段中获取球队比赛数据统计信息
+	 */
+	private TeamMatchStatistics grabTeamMatchStatistics(String str) {
+		// TODO Auto-generated method stub
+		TeamMatchStatistics statistics=new TeamMatchStatistics();
+		Pattern pattern = Pattern
+				.compile("(总计)(.*?)(</tr>)");
+		Matcher matcher = pattern.matcher(str);
+		if (matcher.find()) {
+			String str1=matcher.group(2);
+			pattern=Pattern.compile("(<td>)(.*?)(</td>)");
+			matcher=pattern.matcher(str1);
+			if (matcher.find()) {// 设置球队总上场时间
+				statistics.setTime(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队投篮数和命中数
+				String[] temp=matcher.group(2).split("-");
+				statistics.setTwoHit(Integer.parseInt(temp[0]));;
+				statistics.setTwoShot(Integer.parseInt(temp[1]));
+			}
+			if (matcher.find()) {// 设置球队三分出手数和命中数
+				String[] temp=matcher.group(2).split("-");
+				statistics.setThreeHit(Integer.parseInt(temp[0]));;
+				statistics.setThreeShot(Integer.parseInt(temp[1]));
+			}
+			if (matcher.find()) {// 设置球队罚球出手数和命中数
+				String[] temp=matcher.group(2).split("-");
+				statistics.setFreeThrowHit(Integer.parseInt(temp[0]));;
+				statistics.setFreeThrowShot(Integer.parseInt(temp[1]));
+			}
+			if (matcher.find()) {// 设置球队前场篮板
+				statistics.setOffReb(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队后场篮板
+				statistics.setDefReb(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队总篮板
+				statistics.setTotReb(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队助攻数
+				statistics.setAss(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队抢断数
+				statistics.setSteal(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队盖帽数
+				statistics.setBlockShot(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队失误数
+				statistics.setTurnOver(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队犯规数
+				statistics.setFoul(Integer.parseInt(matcher.group(2)));
+			}
+			if (matcher.find()) {// 设置球队得分
+				statistics.setScore(Integer.parseInt(matcher.group(2)));
+			}
+			
+		}
+		return statistics;
+	}
+	
+	/**
+	 * @param str
 	 * @return	
 	 * 去除String中的转义字符\r \n \t
 	 */
@@ -289,5 +411,6 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 		String str3 = str2.replaceAll("\t", "");
 		return str3;
 	}
+
 
 }
