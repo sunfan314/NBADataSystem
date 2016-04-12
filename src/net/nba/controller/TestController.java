@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.nba.dataSpider.MatchInfoSpider;
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.dataSpider.TeamInfoSpider;
 import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
@@ -12,6 +13,7 @@ import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
 import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerInfoDetail;
+import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.MatchService;
@@ -39,6 +41,9 @@ public class TestController {
 
 	@Resource
 	private PlayerInfoSpider playerInfoSpider;
+	
+	@Resource
+	private MatchInfoSpider matchInfoSpider;
 
 	/**
 	 * @return
@@ -149,5 +154,10 @@ public class TestController {
 			return e.getMessage();
 		}
 	}
+	
+//	@RequestMapping("test")
+//	public @ResponseBody List<PlayerMatchStatistics> getList(){
+//		return matchInfoSpider.getPlayerMatchStatistics(null);
+//	}
 
 }

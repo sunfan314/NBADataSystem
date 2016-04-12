@@ -1,6 +1,8 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
@@ -13,7 +15,8 @@ public class Test {
 		// TODO Auto-generated method stub
 		
 		MatchInfoSpiderImpl m=new MatchInfoSpiderImpl();
-		m.getSeasonMatchList();
+		List<Integer> list=new ArrayList<Integer>();
+		m.getPlayerMatchStatistics(list);
 		
 	}
 

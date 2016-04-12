@@ -118,7 +118,6 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	@Override
 	public void downloadPlayerPic(List<Integer> idList) {
 		// TODO Auto-generated method stub
-		// 根据球员英文名访问球员信息页面下载球员图片
 		for (Integer id : idList) {
 			String urlStr = DataSourceUrl.getPlayerDetailInfoURL(id);
 			StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
@@ -141,7 +140,6 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 	@Override
 	public List<PlayerInfoDetail> getPlayerInfoDetail(List<Integer> idList) {
 		// TODO Auto-generated method stub
-		// 根据球员英文名从网页获取球员详细信息列表
 		List<PlayerInfoDetail> list = new ArrayList<PlayerInfoDetail>();
 		for (Integer id : idList) {
 			PlayerInfoDetail player = new PlayerInfoDetail();
@@ -228,8 +226,10 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 		return list;
 	}
 	
-	/*
-	 * 在网页：http://nba.sports.sina.com.cn/players.php?dpc=1中根据球员英文名获取球员id
+	/**
+	 * @param name
+	 * @param webPageBuffer
+	 * @return	在网页：http://nba.sports.sina.com.cn/players.php?dpc=1中根据球员名获取球员id
 	 */
 	private int getPlayerId(String name,StringBuffer webPageBuffer) {
 		// TODO Auto-generated method stub
@@ -249,8 +249,12 @@ public class PlayerInfoSpiderImpl implements PlayerInfoSpider {
 		return 0;
 	}
 
+	/**
+	 * @param str
+	 * @return	
+	 * 去除String中的转义字符\r \n \t
+	 */
 	private String replaceEscapedCharacter(String str) {
-		// 去除String中的转义字符\r \n \t
 		String str1 = str.replaceAll("\r", "");
 		String str2 = str1.replaceAll("\n", "");
 		String str3 = str2.replaceAll("\t", "");

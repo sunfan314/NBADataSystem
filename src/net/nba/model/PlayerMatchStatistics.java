@@ -59,7 +59,7 @@ public class PlayerMatchStatistics {
 
 	private int freeThrowHit;
 
-	private int freeThreeShot;
+	private int freeThrowShot;
 
 	private int offReb;
 
@@ -79,37 +79,6 @@ public class PlayerMatchStatistics {
 
 	private int score;
 	
-	
-
-	public PlayerMatchStatistics(int matchId, int playerId, String playerName,
-			int teamId, int isFirst, int time, int twoHit, int twoShot,
-			int threeHit, int threeShot, int freeThrowHit, int freeThreeShot,
-			int offReb, int defReb, int totReb, int ass, int steal,
-			int blockShot, int turnOver, int foul, int score) {
-		super();
-		this.matchId = matchId;
-		this.playerId = playerId;
-		this.playerName = playerName;
-		this.teamId = teamId;
-		this.isFirst = isFirst;
-		this.time = time;
-		this.twoHit = twoHit;
-		this.twoShot = twoShot;
-		this.threeHit = threeHit;
-		this.threeShot = threeShot;
-		this.freeThrowHit = freeThrowHit;
-		this.freeThreeShot = freeThreeShot;
-		this.offReb = offReb;
-		this.defReb = defReb;
-		this.totReb = totReb;
-		this.ass = ass;
-		this.steal = steal;
-		this.blockShot = blockShot;
-		this.turnOver = turnOver;
-		this.foul = foul;
-		this.score = score;
-	}
-
 	public int getMatchId() {
 		return matchId;
 	}
@@ -198,12 +167,13 @@ public class PlayerMatchStatistics {
 		this.freeThrowHit = freeThrowHit;
 	}
 
-	public int getFreeThreeShot() {
-		return freeThreeShot;
+	
+	public int getFreeThrowShot() {
+		return freeThrowShot;
 	}
 
-	public void setFreeThreeShot(int freeThreeShot) {
-		this.freeThreeShot = freeThreeShot;
+	public void setFreeThrowShot(int freeThrowShot) {
+		this.freeThrowShot = freeThrowShot;
 	}
 
 	public int getOffReb() {

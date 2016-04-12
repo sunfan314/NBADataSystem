@@ -7,3 +7,4 @@ Server for NBADataSystem
 	5：获取球员详细信息--getPlayerInfoDetail(playerId)
 	6：获取最近比赛列表--getLatestMatchList
 	7：获取球队比赛列表--getTeamMatchList(teamId)
+	8：获取比赛球员数据统计--getPlayerMatchStatistics(matchId)

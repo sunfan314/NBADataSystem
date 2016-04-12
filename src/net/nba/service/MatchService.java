@@ -3,6 +3,7 @@ package net.nba.service;
 import java.util.List;
 
 import net.nba.model.Match;
+import net.nba.model.PlayerMatchStatistics;
 
 /**
  * @author sunfan314
@@ -30,6 +31,12 @@ public interface MatchService {
 	 * @return	球队当前赛季所有比赛
 	 */
 	public List<Match> getTeamMatchs(int teamId);//获取某支球队当前赛季比赛信息
+
+	/**
+	 * @param matchId
+	 * @return	某场比赛球员数据统计信息
+	 */
+	public List<PlayerMatchStatistics> getPlayerMatchStatistics(int matchId);
 
 	
 

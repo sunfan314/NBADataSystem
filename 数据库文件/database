@@ -82,7 +82,7 @@ create table player_match_statistics(
 	threeHit int not null,
 	threeShot int not null,
 	freeThrowHit int not null,
-	freeThreeShot int not null,
+	freeThrowShot int not null,
 	offReb int not null,
 	defReb int not null,
 	totReb int not null,
