@@ -26,6 +26,13 @@ public interface MatchService {
 	 * 更新球队比赛统计数据 
 	 */
 	public void updateTeamMatchStatistics();
+	
+	/**
+	 * @param year
+	 * @param date	格式：03-23（月份与日期都以两位数表示）
+	 * @return
+	 */
+	public List<Match> getMatchList(int year,String date);
 
 	/**
 	 * @return	最近50场比赛的记录列表
@@ -36,7 +43,7 @@ public interface MatchService {
 	 * @param teamId
 	 * @return	球队当前赛季所有比赛
 	 */
-	public List<Match> getTeamMatchs(int teamId);//获取某支球队当前赛季比赛信息
+	public List<Match> getTeamMatchs(int teamId);
 
 	/**
 	 * @param matchId

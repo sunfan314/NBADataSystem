@@ -181,7 +181,18 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 					if (matcher1.matches()) {
 						String str3 = matcher1.group(3);
 						String[] temp = str3.split("\\s+");
-						if (temp[1].equals("未赛")||temp[1].equals("延期")) {// 跳过尚未开始的比赛
+//						if(temp.length<2){//跳过未完赛比赛记录（季后赛未开始比赛有时只显示时间不显示未赛）
+//							continue;
+//						}
+//						if (temp[1].equals("未赛")||temp[1].equals("延期")) {// 跳过尚未开始的比赛
+//							continue;
+//						}
+						try {
+							if(!temp[1].equals("完场")){
+								continue;//跳过未赛和延期的比赛
+							};
+						} catch (ArrayIndexOutOfBoundsException e) {
+							// TODO: handle exception
 							continue;
 						}
 						Match match = new Match();

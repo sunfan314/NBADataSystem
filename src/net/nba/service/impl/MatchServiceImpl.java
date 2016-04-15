@@ -77,6 +77,15 @@ public class MatchServiceImpl implements MatchService{
 			teamMatchStatisticsDao.saveOrUpdate(statistics);
 		}
 	}
+	
+	@Override
+	public List<Match> getMatchList(int year, String date) {
+		// TODO Auto-generated method stub
+		List<Object> params=new ArrayList<Object>();
+		params.add(year);
+		params.add(date);
+		return matchDao.find("from Match where year= ? and date = ?", params);
+	}
 
 	@Override
 	public List<Match> getLatestMatchs() {
@@ -110,6 +119,8 @@ public class MatchServiceImpl implements MatchService{
 		// TODO Auto-generated method stub
 		return teamMatchStatisticsDao.find("from TeamMatchStatistics where matchId = ?", matchId);
 	}
+
+
 
 
 //	@Override

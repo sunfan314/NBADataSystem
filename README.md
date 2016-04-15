@@ -9,3 +9,4 @@ Server for NBADataSystem
 	7：获取球队比赛列表--getTeamMatchList(teamId)
 	8：获取比赛球员数据统计--getPlayerMatchStatistics(matchId)
 	9：获取球队比赛统计数据--getTeamMatchStatistics(matchId)
+	10：获取每日得分王数据--getPlayerRanks(date)

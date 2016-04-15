@@ -13,6 +13,7 @@ import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.Team;
@@ -179,12 +180,11 @@ public class TestController {
 		}
 	}
 	
-	@RequestMapping("test")
-	public @ResponseBody List<TeamMatchStatistics> getList(){
-		List<Integer> list=new ArrayList<Integer>();
-		list.add(2016012327);
-		return matchInfoSpider.getTeamMatchStatistics(list);
-		
-	}
+//	@RequestMapping("test")
+//	public @ResponseBody List<PlayerDataRank> getList(){
+//		return playerService.getPlayerDataRanks(0, "2016-04-10");
+//		
+//	}
+	
 
 }
