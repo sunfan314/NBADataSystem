@@ -22,6 +22,7 @@ import net.nba.model.TeamSeasonRank;
 import net.nba.service.MatchService;
 import net.nba.service.PlayerService;
 import net.nba.service.TeamService;
+import net.nba.util.CommonDataManager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,7 +107,7 @@ public class TestController {
 	@RequestMapping("/downloadPlayerImgs")
 	public @ResponseBody String downloadPlayerImgs(int teamId) {
 		List<Integer> list = new ArrayList<Integer>();
-		List<Player> players = playerService.getTeamPlayerList(teamId);
+		List<Player> players = teamService.getTeamPlayerList(teamId);
 		for (Player player : players) {
 			list.add(player.getId());
 		}
@@ -191,6 +192,18 @@ public class TestController {
 			return e.getMessage();
 		}
 		
+	}
+	
+	@RequestMapping("test")
+	public @ResponseBody List<Integer> test(){
+		List<Integer> temp=new ArrayList<Integer>();
+		List<PlayerMatchStatistics> list=playerService.getPlayerMatchStatistics(4563, CommonDataManager.SEASON);
+		for (PlayerMatchStatistics playerMatchStatistics : list) {
+			if(playerMatchStatistics.getIsFirst()==1){
+				temp.add(playerMatchStatistics.getMatchId());
+			}
+		}
+		return temp;
 	}
 	
 

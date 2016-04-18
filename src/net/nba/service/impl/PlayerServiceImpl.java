@@ -143,6 +143,7 @@ public class PlayerServiceImpl implements PlayerService {
 				foulTot=foulTot+s.getFoul();
 				scoreTot=scoreTot+s.getScore();			
 			}
+			statistics.setIsFirst(isFirstTot);
 			statistics.setTime(DoubleFormat.transfer((double)timeTot/totMatches));
 			statistics.setTwoHit(DoubleFormat.transfer((double)twoHitTot/totMatches));
 			statistics.setTwoShot(DoubleFormat.transfer((double)twoShotTot/totMatches));
@@ -165,12 +166,6 @@ public class PlayerServiceImpl implements PlayerService {
 			playerSeasonStatisticsDao.saveOrUpdate(pss);
 		}
 		
-	}
-
-	@Override
-	public List<Player> getTeamPlayerList(int teamId) {
-		// TODO Auto-generated method stub
-		return playerDao.find("from Player where teamId = ?", teamId);
 	}
 
 	@Override

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import net.nba.dao.BaseDao;
 import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.model.Player;
+import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.TeamService;
@@ -24,7 +26,13 @@ public class TeamServiceImpl implements TeamService {
 	private BaseDao<Team> teamDao;
 	
 	@Resource
+	private BaseDao<Player> playerDao;
+	
+	@Resource
 	private BaseDao<TeamSeasonRank> teamRankDao;
+	
+	@Resource
+	private BaseDao<PlayerSeasonStatistics> playerSeasonStatisticsDao;
 
 	@Resource
 	private TeamInfoSpider teamInfoSpider;
@@ -59,6 +67,12 @@ public class TeamServiceImpl implements TeamService {
 		// TODO Auto-generated method stub
 		return teamDao.get(Team.class, teamId);
 	}
+	
+	@Override
+	public List<Player> getTeamPlayerList(int teamId) {
+		// TODO Auto-generated method stub
+		return playerDao.find("from Player where teamId = ?",teamId);
+	}
 
 	@Override
 	public List<TeamSeasonRank> getTeamSeasonRanks() {
@@ -66,8 +80,16 @@ public class TeamServiceImpl implements TeamService {
 		return teamRankDao.find("from TeamSeasonRank");
 	}
 
-	
-	
+	@Override
+	public List<PlayerSeasonStatistics> getTeamPlayerStatistics(int teamId) {
+		// TODO Auto-generated method stub
+		List<PlayerSeasonStatistics> list=new ArrayList<PlayerSeasonStatistics>();
+		List<Player> playerList=getTeamPlayerList(teamId);
+		for (Player player : playerList) {
+			list.add(playerSeasonStatisticsDao.get(PlayerSeasonStatistics.class, player.getId()));
+		}
+		return list;
+	}
 	
 
 }

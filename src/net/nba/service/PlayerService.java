@@ -30,11 +30,6 @@ public interface PlayerService {
 	 */
 	public void updatePlayerSeasonStatistics();
 	
-	/**
-	 * @param teamId
-	 * @return	球队阵容列表
-	 */
-	public List<Player> getTeamPlayerList(int teamId);
 	
 	/**
 	 * @return	所有球员列表

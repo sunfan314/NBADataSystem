@@ -217,6 +217,8 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 								 * 由于季前赛信息较为混乱，所以不计入比赛数据
 								 */
 								continue;
+							} else if( matcher1.group(2).equals("全明星")){
+								match.setType(3);
 							}
 						}
 						pattern1 = Pattern

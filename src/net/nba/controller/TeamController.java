@@ -1,18 +1,18 @@
 package net.nba.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.nba.model.Player;
+import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.service.TeamService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -39,6 +39,25 @@ public class TeamController {
 	@RequestMapping("/getTeamInfos")
 	public @ResponseBody Team getTeamInfos(int teamId) {
 		return teamService.getTeamInfos(teamId);
+	}
+	
+	/**
+	 * @param teamId
+	 * @return	某只球队的球员列表
+	 */
+	@RequestMapping("/getTeamPlayerList")
+	public @ResponseBody List<Player> getTeamPlayerList(int teamId){
+		return teamService.getTeamPlayerList(teamId);
+	}
+	
+	/**
+	 * @param teamId
+	 * @return	球队球员赛季数据统计
+	 */
+	@RequestMapping("/getTeamPlayerStatistics")
+	public @ResponseBody List<PlayerSeasonStatistics> getPlayerStatistics(int teamId){		
+		return teamService.getTeamPlayerStatistics(teamId);
+		
 	}
 	
 	/**

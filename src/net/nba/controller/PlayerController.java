@@ -29,15 +29,6 @@ public class PlayerController {
 	private PlayerService playerService;
 	
 	/**
-	 * @param teamId
-	 * @return	某只球队的球员列表
-	 */
-	@RequestMapping("/getTeamPlayerList")
-	public @ResponseBody List<Player> getTeamPlayerList(int teamId){
-		return playerService.getTeamPlayerList(teamId);
-	}
-	
-	/**
 	 * @param playerId
 	 * @return	某位球员的详细信息
 	 */
@@ -56,20 +47,7 @@ public class PlayerController {
 		if(date!=null){
 			return playerService.getPlayerDataRanks(date);
 		}
-		//return playerService.getSeasonPlayerRanks();
 		return playerService.getPlayerSeasonRanks();
 	}
 	
-//	@RequestMapping("/getTeamPlayers")
-//	public @ResponseBody List<Map<String,Object>> getTeamPlayers(int teamId){
-//		//获取球队球员列表（包含球员各项基本数据统计：得分、篮板、助攻、抢断、盖帽等）
-//		return playerService.getTeamPlayers(teamId);
-//	}
-
-//	@RequestMapping("/getPlayerSeasonStatistics")
-//	public @ResponseBody Map<String,Object> getPlayerSeasonStatistics(int playerId){
-//		//获取球员赛季数据统计
-//		return playerService.getPlayerSeasonStatistics(playerId);
-//	}
-//	
 }
