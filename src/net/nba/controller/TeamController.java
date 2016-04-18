@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
+import net.nba.model.TeamSeasonStatistics;
 import net.nba.service.TeamService;
 
 import org.springframework.stereotype.Controller;
@@ -68,16 +70,34 @@ public class TeamController {
 		return teamService.getTeamSeasonRanks();
 	}
 	
-//	
-//	@RequestMapping("/getTeamSeasonStatistics")
-//	public @ResponseBody Map<String, Object> getTeamStatistics(int teamId){
-//		//获取当前赛季球队比赛数据统计
-//		return teamService.getTeamStatistics(teamId);
-//	}
-//	
-//	@RequestMapping("/getTeamVsStatistics")
-//	public @ResponseBody List<Map<String, Object>> getTeamVsStatistics(int teamId,int vsTeamId){
-//		//获取球队与某只球队交锋数据统计
-//		return teamService.getTeamVsStatistics(teamId,vsTeamId);
-//	}
+	
+	/**
+	 * @param teamId
+	 * @return	获取当前赛季球队比赛数据统计
+	 */
+	@RequestMapping("/getTeamSeasonStatistics")
+	public @ResponseBody TeamSeasonStatistics getTeamSeasonStatistics(int teamId){
+				return teamService.getTeamSeasonStatistics(teamId);
+	}
+	
+	/**
+	 * @param teamId
+	 * @param vsTeamId
+	 * @return	获取球队与某只球队交锋数据统计
+	 */
+	@RequestMapping("/getTeamVsStatistics")
+	public @ResponseBody List<TeamSeasonStatistics> getTeamVsStatistics(int teamId,int vsTeamId){
+		return teamService.getTeamVsStatistics(teamId,vsTeamId);
+	}
+	
+	/**
+	 * @param teamId
+	 * @param vsTeamId
+	 * @return	获取球队与某只球队交锋列表
+	 */
+	@RequestMapping("/getTeamVsMatchList")
+	public @ResponseBody List<Match> getTeamVsMatchList(int teamId,int vsTeamId){
+		return teamService.getTeamVsMatchList(teamId,vsTeamId);
+	}
+	
 }

@@ -10,11 +10,18 @@ import org.springframework.stereotype.Service;
 
 import net.nba.dao.BaseDao;
 import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
+import net.nba.model.TeamMatchStatistics;
+import net.nba.model.TeamMatchStatisticsPK;
 import net.nba.model.TeamSeasonRank;
+import net.nba.model.TeamSeasonStatistics;
 import net.nba.service.TeamService;
+import net.nba.util.CommonDataManager;
+import net.nba.util.DoubleFormat;
 
 /**
  * @author sunfan314
@@ -29,7 +36,16 @@ public class TeamServiceImpl implements TeamService {
 	private BaseDao<Player> playerDao;
 	
 	@Resource
+	private BaseDao<Match> matchDao;
+	
+	@Resource
 	private BaseDao<TeamSeasonRank> teamRankDao;
+	
+	@Resource
+	private BaseDao<TeamMatchStatistics> teamMatchStatisticsDao;
+	
+	@Resource
+	private BaseDao<TeamSeasonStatistics> teamSeasonStatisticsDao;
 	
 	@Resource
 	private BaseDao<PlayerSeasonStatistics> playerSeasonStatisticsDao;
@@ -54,6 +70,23 @@ public class TeamServiceImpl implements TeamService {
 			teamRankDao.saveOrUpdate(rank);
 		}
 	}
+	
+	@Override
+	public void updateTeamSeasonStatistics() {
+		// TODO Auto-generated method stub
+		List<TeamSeasonStatistics> list=new ArrayList<TeamSeasonStatistics>();
+		List<Team> teams=teamDao.find("from Team");
+		for (Team team : teams) {
+			List<TeamMatchStatistics> dataList=getTeamMatchStatistics(team.getId(),CommonDataManager.SEASON );
+			TeamSeasonStatistics statistics=new TeamSeasonStatistics(team,dataList,CommonDataManager.SEASON);
+			list.add(statistics);
+		}
+		for (TeamSeasonStatistics tss : list) {
+			teamSeasonStatisticsDao.saveOrUpdate(tss);
+		}
+			
+	}
+	
 
 	
 	@Override
@@ -90,6 +123,66 @@ public class TeamServiceImpl implements TeamService {
 		}
 		return list;
 	}
+
+	@Override
+	public List<TeamMatchStatistics> getTeamMatchStatistics(int teamId,
+			String season) {
+		// TODO Auto-generated method stub
+		List<Object> params=new ArrayList<Object>();
+		params.add(teamId);
+		params.add(teamId);
+		params.add(season);
+		List<Match> matches=matchDao.find("from Match where (vId = ? or hId = ?) and season = ?",params);
+		List<TeamMatchStatistics> list=new ArrayList<TeamMatchStatistics>();
+		for (Match match : matches) {
+			if(match.getType()==0){
+				TeamMatchStatisticsPK pk=new TeamMatchStatisticsPK(match.getId(), teamId);
+				list.add(teamMatchStatisticsDao.get(TeamMatchStatistics.class, pk));
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public TeamSeasonStatistics getTeamSeasonStatistics(int teamId) {
+		// TODO Auto-generated method stub
+		return teamSeasonStatisticsDao.get(TeamSeasonStatistics.class, teamId);
+	}
+
+	@Override
+	public List<TeamSeasonStatistics> getTeamVsStatistics(int teamId,
+			int vsTeamId) {
+		// TODO Auto-generated method stub
+		List<Match> vsMatchList=getTeamVsMatchList(teamId, vsTeamId);
+		List<TeamMatchStatistics> list1=new ArrayList<TeamMatchStatistics>();
+		List<TeamMatchStatistics> list2=new ArrayList<TeamMatchStatistics>();
+		for (Match match : vsMatchList) {
+			TeamMatchStatisticsPK pk1=new TeamMatchStatisticsPK(match.getId(), teamId);
+			list1.add(teamMatchStatisticsDao.get(TeamMatchStatistics.class, pk1));
+			TeamMatchStatisticsPK pk2=new TeamMatchStatisticsPK(match.getId(), vsTeamId);
+			list2.add(teamMatchStatisticsDao.get(TeamMatchStatistics.class, pk2));
+		}
+		List<TeamSeasonStatistics> list=new ArrayList<TeamSeasonStatistics>();
+		Team team=teamDao.get(Team.class, teamId);
+		Team vsTeam=teamDao.get(Team.class, vsTeamId);
+		list.add(new TeamSeasonStatistics(team, list1, CommonDataManager.SEASON));
+		list.add(new TeamSeasonStatistics(vsTeam, list2, CommonDataManager.SEASON));
+		return list;
+	}
+
+	@Override
+	public List<Match> getTeamVsMatchList(int teamId,
+			int vsTeamId) {
+		// TODO Auto-generated method stub
+		List<Object> params=new ArrayList<Object>();
+		params.add(teamId);
+		params.add(vsTeamId);
+		params.add(teamId);
+		params.add(vsTeamId);
+		List<Match> vsMatchList=matchDao.find("from Match where (vId = ? and hId = ?) or (hId = ? and vId = ?)",params);
+		return vsMatchList;
+	}
+
 	
 
 }

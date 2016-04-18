@@ -99,67 +99,17 @@ public class PlayerServiceImpl implements PlayerService {
 		// TODO Auto-generated method stub
 		List<PlayerSeasonStatistics> list=new ArrayList<PlayerSeasonStatistics>();
 		List<Player> players=playerDao.find("from Player");
-		List<Match> matchs=matchDao.find("from Match");
 		for (Player player : players) {//更新每位球员赛季数据统计
 			/*
 			 * 获得球员赛季常规赛比赛统计数据列表
 			 */
+			Team team=teamDao.get(Team.class, player.getTeamId());
 			List<PlayerMatchStatistics> dataList=getPlayerMatchStatistics(player.getId(), CommonDataManager.SEASON);
-			PlayerSeasonStatistics statistics=new PlayerSeasonStatistics();
 			int totMatches=dataList.size();
 			if(totMatches==0){
 				continue;//跳过未上场球员
 			}
-			statistics.setPlayerId(player.getId());
-			statistics.setPlayerName(player.getName());
-			statistics.setTeamId(player.getTeamId());
-			Team team=teamDao.get(Team.class, player.getTeamId());
-			statistics.setTeamName(team.getName());
-			statistics.setTotalMatches(totMatches);
-			/*
-			 * 数据总数统计
-			 */
-			int isFirstTot = 0,timeTot=0,twoHitTot=0,twoShotTot=0,threeHitTot=0,threeShotTot=0;
-			int freeThrowHitTot=0,freeThrowShotTot=0,offRebTot=0,defRebTot=0,totRebTot=0;
-			int assTot=0,stealTot=0,blockShotTot=0,turnOverTot=0,foulTot=0,scoreTot=0;
-			for (PlayerMatchStatistics s : dataList) {
-				if(s.getIsFirst()==0){//首发次数
-					isFirstTot++;
-				}
-				timeTot=timeTot+s.getTime();
-				twoHitTot=threeHitTot+s.getTwoHit();
-				twoShotTot=twoShotTot+s.getTwoShot();
-				threeHitTot=threeHitTot+s.getThreeHit();
-				threeShotTot=threeShotTot+s.getThreeShot();
-				freeThrowHitTot=freeThrowHitTot+s.getFreeThrowHit();
-				freeThrowShotTot=freeThrowShotTot+s.getFreeThrowShot();
-				offRebTot=offRebTot+s.getOffReb();
-				defRebTot=defRebTot+s.getDefReb();
-				totRebTot=totRebTot+s.getTotReb();
-				assTot=assTot+s.getAss();
-				stealTot=stealTot+s.getSteal();
-				blockShotTot=blockShotTot+s.getBlockShot();
-				turnOverTot=turnOverTot+s.getTurnOver();
-				foulTot=foulTot+s.getFoul();
-				scoreTot=scoreTot+s.getScore();			
-			}
-			statistics.setIsFirst(isFirstTot);
-			statistics.setTime(DoubleFormat.transfer((double)timeTot/totMatches));
-			statistics.setTwoHit(DoubleFormat.transfer((double)twoHitTot/totMatches));
-			statistics.setTwoShot(DoubleFormat.transfer((double)twoShotTot/totMatches));
-			statistics.setThreeHit(DoubleFormat.transfer((double)threeHitTot/totMatches));
-			statistics.setThreeShot(DoubleFormat.transfer((double)threeShotTot/totMatches));
-			statistics.setFreeThrowHit(DoubleFormat.transfer((double)freeThrowHitTot/totMatches));
-			statistics.setFreeThrowShot(DoubleFormat.transfer((double)freeThrowShotTot/totMatches));
-			statistics.setOffReb(DoubleFormat.transfer((double)offRebTot/totMatches));
-			statistics.setDefReb(DoubleFormat.transfer((double)defRebTot/totMatches));
-			statistics.setTotReb(DoubleFormat.transfer((double)totRebTot/totMatches));
-			statistics.setAss(DoubleFormat.transfer((double)assTot/totMatches));
-			statistics.setSteal(DoubleFormat.transfer((double)stealTot/totMatches));
-			statistics.setBlockShot(DoubleFormat.transfer((double)blockShotTot/totMatches));
-			statistics.setTurnOver(DoubleFormat.transfer((double)turnOverTot/totMatches));
-			statistics.setFoul(DoubleFormat.transfer((double)foulTot/totMatches));
-			statistics.setScore(DoubleFormat.transfer((double)scoreTot/totMatches));
+			PlayerSeasonStatistics statistics=new PlayerSeasonStatistics(player,team,dataList,CommonDataManager.SEASON);
 			list.add(statistics);
 		}
 		for (PlayerSeasonStatistics pss : list) {
@@ -252,6 +202,13 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		return playerDataRanks;
 	}
+	
+	@Override
+	public PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId) {
+		// TODO Auto-generated method stub
+		return playerSeasonStatisticsDao.get(PlayerSeasonStatistics.class,playerId);
+	}
+	
 
 
 
@@ -408,6 +365,7 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		return list;
 	}
+
 	
 	
 	

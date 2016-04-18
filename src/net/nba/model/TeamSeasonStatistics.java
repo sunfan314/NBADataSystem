@@ -13,14 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author sunfan314
- *playerId 			球员id
- *playerName 		球员姓名
- *season 			赛季信息
  *teamId 			球队id
  *teamName 			球队名
- *isFirst 			首发次数
- *totalMatches 		出场次数
- *time 				场均上场时间
+ *season 			赛季信息
+ *totalMatches 		比赛场次
  *twoHit 			场均两份命中数
  *twoShot 			场均两份出手次数
  *threeHit 			场均三分命中数
@@ -39,25 +35,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @Entity
-@Table(name = "player_season_statistics")
+@Table(name = "team_season_statistics")
 @JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
-public class PlayerSeasonStatistics {
+public class TeamSeasonStatistics {
 	@Id
-	private int playerId;
-	
-	private String playerName;
-	
-	private String season;
-	
 	private int teamId;
 	
 	private String teamName;
 	
-	private int isFirst;
+	private String season;
 	
 	private int totalMatches;
-	
-	private double time;
 	
 	private double twoHit;
 	
@@ -89,27 +77,25 @@ public class PlayerSeasonStatistics {
 	
 	private double score;
 	
-	public PlayerSeasonStatistics(){
+	public TeamSeasonStatistics() {
 		super();
 	}
 	
-	public PlayerSeasonStatistics(Player player,Team team,List<PlayerMatchStatistics> dataList,String season){
+	/**
+	 * @param matchStatistics
+	 * 根据比赛列表计算场均数据
+	 */
+	public TeamSeasonStatistics(Team team,List<TeamMatchStatistics> dataList,String season){
 		super();
-		this.setSeason(season);
-		this.setPlayerId(player.getId());
-		this.setPlayerName(player.getName());
 		this.setTeamId(team.getId());
 		this.setTeamName(team.getName());
+		this.setSeason(season);
 		int totMatches=dataList.size();
 		this.setTotalMatches(totMatches);
-		int isFirstTot = 0,timeTot=0,twoHitTot=0,twoShotTot=0,threeHitTot=0,threeShotTot=0;
+		int twoHitTot=0,twoShotTot=0,threeHitTot=0,threeShotTot=0;
 		int freeThrowHitTot=0,freeThrowShotTot=0,offRebTot=0,defRebTot=0,totRebTot=0;
 		int assTot=0,stealTot=0,blockShotTot=0,turnOverTot=0,foulTot=0,scoreTot=0;
-		for (PlayerMatchStatistics s : dataList) {
-			if(s.getIsFirst()==0){//首发次数
-				isFirstTot++;
-			}
-			timeTot=timeTot+s.getTime();
+		for (TeamMatchStatistics s : dataList) {
 			twoHitTot=twoHitTot+s.getTwoHit();
 			twoShotTot=twoShotTot+s.getTwoShot();
 			threeHitTot=threeHitTot+s.getThreeHit();
@@ -126,8 +112,6 @@ public class PlayerSeasonStatistics {
 			foulTot=foulTot+s.getFoul();
 			scoreTot=scoreTot+s.getScore();			
 		}
-		this.setIsFirst(isFirstTot);
-		this.setTime(DoubleFormat.transfer((double)timeTot/totMatches));
 		this.setTwoHit(DoubleFormat.transfer((double)twoHitTot/totMatches));
 		this.setTwoShot(DoubleFormat.transfer((double)twoShotTot/totMatches));
 		this.setThreeHit(DoubleFormat.transfer((double)threeHitTot/totMatches));
@@ -144,33 +128,6 @@ public class PlayerSeasonStatistics {
 		this.setFoul(DoubleFormat.transfer((double)foulTot/totMatches));
 		this.setScore(DoubleFormat.transfer((double)scoreTot/totMatches));
 		
-
-	}
-
-	public int getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
-	
-	
-
-	public String getSeason() {
-		return season;
-	}
-
-	public void setSeason(String season) {
-		this.season = season;
 	}
 
 	public int getTeamId() {
@@ -189,12 +146,12 @@ public class PlayerSeasonStatistics {
 		this.teamName = teamName;
 	}
 
-	public int getIsFirst() {
-		return isFirst;
+	public String getSeason() {
+		return season;
 	}
 
-	public void setIsFirst(int isFirst) {
-		this.isFirst = isFirst;
+	public void setSeason(String season) {
+		this.season = season;
 	}
 
 	public int getTotalMatches() {
@@ -203,14 +160,6 @@ public class PlayerSeasonStatistics {
 
 	public void setTotalMatches(int totalMatches) {
 		this.totalMatches = totalMatches;
-	}
-
-	public double getTime() {
-		return time;
-	}
-
-	public void setTime(double time) {
-		this.time = time;
 	}
 
 	public double getTwoHit() {
@@ -334,4 +283,4 @@ public class PlayerSeasonStatistics {
 	}
 	
 	
-	}
+}

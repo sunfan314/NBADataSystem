@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import net.nba.model.Player;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
+import net.nba.model.PlayerSeasonStatistics;
 import net.nba.service.PlayerService;
 import net.nba.util.FilePathManager;
 
@@ -48,6 +49,11 @@ public class PlayerController {
 			return playerService.getPlayerDataRanks(date);
 		}
 		return playerService.getPlayerSeasonRanks();
+	}
+	
+	@RequestMapping("/getPlayerSeasonStatistics")
+	public @ResponseBody PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId){
+		return playerService.getPlayerSeasonStatistics(playerId);
 	}
 	
 }

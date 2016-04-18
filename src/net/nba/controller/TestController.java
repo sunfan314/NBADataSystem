@@ -194,6 +194,19 @@ public class TestController {
 		
 	}
 	
+	@RequestMapping("updateTeamSeasonStatistics")
+	public @ResponseBody String updateTeamSeasonStatistics(){
+		try {
+			teamService.updateTeamSeasonStatistics();
+			return "Update Team-Season-Statistics Success!";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		
+	}
+	
 	@RequestMapping("test")
 	public @ResponseBody List<Integer> test(){
 		List<Integer> temp=new ArrayList<Integer>();

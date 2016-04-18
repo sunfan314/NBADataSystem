@@ -8,6 +8,7 @@ import net.nba.model.Player;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
+import net.nba.model.PlayerSeasonStatistics;
 
 /**
  * @author sunfan314
@@ -60,10 +61,11 @@ public interface PlayerService {
 	 */
 	public List<PlayerDataRank> getPlayerSeasonRanks();
 
-//	List<Map<String, Object>> getSeasonPlayerRanks();
-//
-//	List<Map<String, Object>> getPlayerRanks(Date date);
 
-//	Map<String, Object> getPlayerSeasonStatistics(int playerId);
+	/**
+	 * @param playerId
+	 * @return	球员赛季数据统计
+	 */
+	public PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId);
 
 }

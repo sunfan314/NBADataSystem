@@ -127,12 +127,4 @@ public class MatchServiceImpl implements MatchService{
 	}
 
 
-
-
-//	@Override
-//	public MatchInfo getMatchInfo(int matchId) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }
