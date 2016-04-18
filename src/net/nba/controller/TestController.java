@@ -180,11 +180,18 @@ public class TestController {
 		}
 	}
 	
-//	@RequestMapping("test")
-//	public @ResponseBody List<PlayerDataRank> getList(){
-//		return playerService.getPlayerDataRanks(0, "2016-04-10");
-//		
-//	}
+	@RequestMapping("updatePlayerSeasonStatistics")
+	public @ResponseBody String updatePlayerSeasonStatistics(){
+		try {
+			playerService.updatePlayerSeasonStatistics();
+			return "Update Player-Season-Statistics Success!";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		
+	}
 	
 
 }

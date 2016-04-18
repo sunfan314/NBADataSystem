@@ -7,6 +7,7 @@ import java.util.Map;
 import net.nba.model.Player;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
+import net.nba.model.PlayerMatchStatistics;
 
 /**
  * @author sunfan314
@@ -25,6 +26,11 @@ public interface PlayerService {
 	public void updatePlayerInfoDetail();
 	
 	/**
+	 * 更新球员赛季数据统计
+	 */
+	public void updatePlayerSeasonStatistics();
+	
+	/**
 	 * @param teamId
 	 * @return	球队阵容列表
 	 */
@@ -40,6 +46,13 @@ public interface PlayerService {
 	 * @return	球员详细信息
 	 */
 	public PlayerInfoDetail getPlayerInfoDetail(int playeId);
+	
+	/**
+	 * @param playerId
+	 * @param season	例：2015-2016
+	 * @return	球员某赛季常规赛比赛数据统计
+	 */
+	public List<PlayerMatchStatistics> getPlayerMatchStatistics(int playerId,String season);
 	
 	/**
 	 * @param	date	格式：年-月-日 例：2016-04-10(月份和日期都为两位，不足两位用0补足)

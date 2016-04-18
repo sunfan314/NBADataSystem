@@ -54,7 +54,10 @@ public class MatchServiceImpl implements MatchService{
 		 */
 		for (Match match : matchList) {
 			//为避免一次数据写入时间过长，可分批进行
-			matchIdList.add(match.getId());
+//			matchIdList.add(match.getId());
+			if(match.getId()>2016040101){//四月最新赛事
+				matchIdList.add(match.getId());
+			}
 		}
 		List<PlayerMatchStatistics> list=matchInfoSpider.getPlayerMatchStatistics(matchIdList);
 		for (PlayerMatchStatistics statistics : list) {
@@ -70,7 +73,10 @@ public class MatchServiceImpl implements MatchService{
 		List<Match> matchList=matchDao.find("from Match");
 		for (Match match : matchList) {
 			//为避免一次数据写入时间过长，可分批进行
-			matchIdList.add(match.getId());
+//			matchIdList.add(match.getId());
+			if(match.getId()>2016040101){//四月最新赛事
+				matchIdList.add(match.getId());
+			}
 		}
 		List<TeamMatchStatistics> list=matchInfoSpider.getTeamMatchStatistics(matchIdList);
 		for (TeamMatchStatistics statistics : list) {

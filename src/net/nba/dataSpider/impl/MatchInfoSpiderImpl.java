@@ -37,19 +37,24 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 		/*
 		 * 获取赛季比赛列表 赛季：一般赛季从10月开始进入季前赛，4月进入季后赛，6月决出总冠军
 		 */
-		for (int i = 10; i < 13; i++) {
-			for (Match match : getMonthMatchList(seasonStartYear, i)) {
-				match.setSeason(seasonStartYear + "-" + seasonEndYear);
-				match.setYear(seasonStartYear);
-				list.add(match);
-			}
-		}
-		for (int i = 1; i < 7; i++) {
-			for (Match match : getMonthMatchList(seasonEndYear, i)) {
-				match.setSeason(seasonStartYear + "-" + seasonEndYear);
-				match.setYear(seasonEndYear);
-				list.add(match);
-			}
+//		for (int i = 10; i < 13; i++) {
+//			for (Match match : getMonthMatchList(seasonStartYear, i)) {
+//				match.setSeason(seasonStartYear + "-" + seasonEndYear);
+//				match.setYear(seasonStartYear);
+//				list.add(match);
+//			}
+//		}
+//		for (int i = 1; i < 7; i++) {
+//			for (Match match : getMonthMatchList(seasonEndYear, i)) {
+//				match.setSeason(seasonStartYear + "-" + seasonEndYear);
+//				match.setYear(seasonEndYear);
+//				list.add(match);
+//			}
+//		}
+		for (Match match : getMonthMatchList(seasonEndYear, 4)) {//获得4月最新比赛数据
+		match.setSeason(seasonStartYear + "-" + seasonEndYear);
+		match.setYear(seasonEndYear);
+		list.add(match);
 		}
 		return list;
 	}

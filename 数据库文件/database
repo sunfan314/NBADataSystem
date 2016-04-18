@@ -117,3 +117,28 @@ create table team_match_statistics(
 	score int not null,
 	constraint primary key(matchId,playerId)
 )default charset = "utf8";
+
+create table player_season_statistics(
+	playerId int primary key,
+	playerName varchar(255) not null,
+	teamId int not null,
+	teamName varchar(255) not null,
+	isFirst int not null,
+	totalMatches int not null,
+	time double not null,
+	twoHit double not null,
+	twoShot double not null,
+	threeHit double not null,
+	threeShot double not null,
+	freeThrowHit double not null,
+	freeThrowShot double not null,
+	offReb double not null,
+	defReb double not null,
+	totReb double not null,
+	ass double not null,
+	steal double not null,
+	blockShot double not null,
+	turnOver double not null,
+	foul double not null,
+	score double not null
+)default charset = "utf8";
