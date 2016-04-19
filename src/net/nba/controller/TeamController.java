@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
@@ -53,6 +54,14 @@ public class TeamController {
 	}
 	
 	/**
+	 * @return	球队赛季排行列表
+	 */
+	@RequestMapping("/getTeamSeasonRanks")
+	public @ResponseBody List<TeamSeasonRank> getTeamSeasonRanks(){
+		return teamService.getTeamSeasonRanks();
+	}
+	
+	/**
 	 * @param teamId
 	 * @return	球队球员赛季数据统计
 	 */
@@ -62,14 +71,10 @@ public class TeamController {
 		
 	}
 	
-	/**
-	 * @return	球队赛季排行列表
-	 */
-	@RequestMapping("/getTeamSeasonRanks")
-	public @ResponseBody List<TeamSeasonRank> getTeamSeasonRanks(){
-		return teamService.getTeamSeasonRanks();
+	@RequestMapping("/getTeamPlayerAdvancedStatistics")
+	public @ResponseBody List<PlayerAdvancedStatistics> getPlayerAdvancedStatistics(int teamId){
+		return teamService.getTeamPlayerAdvancedStatistics(teamId);
 	}
-	
 	
 	/**
 	 * @param teamId

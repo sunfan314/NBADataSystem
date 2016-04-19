@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerSeasonStatistics;
@@ -16,6 +17,7 @@ import net.nba.service.PlayerService;
 import net.nba.util.FilePathManager;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,9 +53,27 @@ public class PlayerController {
 		return playerService.getPlayerSeasonRanks();
 	}
 	
+	/**
+	 * @param playerId
+	 * @return	获取球员赛季数据统计
+	 */
 	@RequestMapping("/getPlayerSeasonStatistics")
 	public @ResponseBody PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId){
 		return playerService.getPlayerSeasonStatistics(playerId);
+	}
+
+	/**
+	 * @param playerId
+	 * @return
+	 */
+	@RequestMapping("/getPlayerSeasonAdvancedStatistics")
+	public @ResponseBody PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(int playerId){
+		return playerService.getPlayerSeasonAdvancedStatistics(playerId);
+	}
+	
+	@RequestMapping("/getPlayerSeasonPERValues")
+	public @ResponseBody List<Integer> getPlayerSeasonPREValues(int playerId){
+		return playerService.getPlayerSeasonPERValues(playerId);
 	}
 	
 }

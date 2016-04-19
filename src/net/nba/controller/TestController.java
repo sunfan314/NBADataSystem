@@ -13,9 +13,11 @@ import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
 import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
+import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamMatchStatistics;
 import net.nba.model.TeamSeasonRank;
@@ -207,17 +209,11 @@ public class TestController {
 		
 	}
 	
-	@RequestMapping("test")
-	public @ResponseBody List<Integer> test(){
-		List<Integer> temp=new ArrayList<Integer>();
-		List<PlayerMatchStatistics> list=playerService.getPlayerMatchStatistics(4563, CommonDataManager.SEASON);
-		for (PlayerMatchStatistics playerMatchStatistics : list) {
-			if(playerMatchStatistics.getIsFirst()==1){
-				temp.add(playerMatchStatistics.getMatchId());
-			}
-		}
-		return temp;
-	}
-	
+//	@RequestMapping("test")
+//	public @ResponseBody PlayerAdvancedStatistics test(){
+//		return playerService.getPlayerAdvancedData();
+//		
+//	}
+//	
 
 }

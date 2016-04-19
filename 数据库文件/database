@@ -115,7 +115,7 @@ create table team_match_statistics(
 	turnOver int not null,
 	foul int not null,
 	score int not null,
-	constraint primary key(matchId,playerId)
+	constraint primary key(matchId,teamId)
 )default charset = "utf8";
 
 create table player_season_statistics(

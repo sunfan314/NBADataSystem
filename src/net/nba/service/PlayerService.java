@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
@@ -67,5 +68,19 @@ public interface PlayerService {
 	 * @return	球员赛季数据统计
 	 */
 	public PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId);
+
+	
+	/**
+	 * @param playerId
+	 * @return	球员赛季进阶数据统计
+	 */
+	public PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(int playerId);
+
+	/**
+	 * @param playerId
+	 * @return	球员赛季效率值列表
+	 */
+	public List<Integer> getPlayerSeasonPERValues(int playerId);
+
 
 }

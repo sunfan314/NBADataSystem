@@ -95,13 +95,13 @@ public class PlayerSeasonStatistics {
 	
 	public PlayerSeasonStatistics(Player player,Team team,List<PlayerMatchStatistics> dataList,String season){
 		super();
-		this.setSeason(season);
-		this.setPlayerId(player.getId());
-		this.setPlayerName(player.getName());
-		this.setTeamId(team.getId());
-		this.setTeamName(team.getName());
+		this.season=season;
+		this.playerId=player.getId();
+		this.playerName=player.getName();
+		this.teamId=team.getId();
+		this.teamName=team.getName();
 		int totMatches=dataList.size();
-		this.setTotalMatches(totMatches);
+		this.totalMatches=totMatches;
 		int isFirstTot = 0,timeTot=0,twoHitTot=0,twoShotTot=0,threeHitTot=0,threeShotTot=0;
 		int freeThrowHitTot=0,freeThrowShotTot=0,offRebTot=0,defRebTot=0,totRebTot=0;
 		int assTot=0,stealTot=0,blockShotTot=0,turnOverTot=0,foulTot=0,scoreTot=0;
@@ -126,23 +126,23 @@ public class PlayerSeasonStatistics {
 			foulTot=foulTot+s.getFoul();
 			scoreTot=scoreTot+s.getScore();			
 		}
-		this.setIsFirst(isFirstTot);
-		this.setTime(DoubleFormat.transfer((double)timeTot/totMatches));
-		this.setTwoHit(DoubleFormat.transfer((double)twoHitTot/totMatches));
-		this.setTwoShot(DoubleFormat.transfer((double)twoShotTot/totMatches));
-		this.setThreeHit(DoubleFormat.transfer((double)threeHitTot/totMatches));
-		this.setThreeShot(DoubleFormat.transfer((double)threeShotTot/totMatches));
-		this.setFreeThrowHit(DoubleFormat.transfer((double)freeThrowHitTot/totMatches));
-		this.setFreeThrowShot(DoubleFormat.transfer((double)freeThrowShotTot/totMatches));
-		this.setOffReb(DoubleFormat.transfer((double)offRebTot/totMatches));
-		this.setDefReb(DoubleFormat.transfer((double)defRebTot/totMatches));
-		this.setTotReb(DoubleFormat.transfer((double)totRebTot/totMatches));
-		this.setAss(DoubleFormat.transfer((double)assTot/totMatches));
-		this.setSteal(DoubleFormat.transfer((double)stealTot/totMatches));
-		this.setBlockShot(DoubleFormat.transfer((double)blockShotTot/totMatches));
-		this.setTurnOver(DoubleFormat.transfer((double)turnOverTot/totMatches));
-		this.setFoul(DoubleFormat.transfer((double)foulTot/totMatches));
-		this.setScore(DoubleFormat.transfer((double)scoreTot/totMatches));
+		this.isFirst=isFirstTot;
+		this.time=DoubleFormat.transfer((double)timeTot/totMatches);
+		this.twoHit=DoubleFormat.transfer((double)twoHitTot/totMatches);
+		this.twoShot=DoubleFormat.transfer((double)twoShotTot/totMatches);
+		this.threeHit=DoubleFormat.transfer((double)threeHitTot/totMatches);
+		this.threeShot=DoubleFormat.transfer((double)threeShotTot/totMatches);
+		this.freeThrowHit=DoubleFormat.transfer((double)freeThrowHitTot/totMatches);
+		this.freeThrowShot=DoubleFormat.transfer((double)freeThrowShotTot/totMatches);
+		this.offReb=DoubleFormat.transfer((double)offRebTot/totMatches);
+		this.defReb=DoubleFormat.transfer((double)defRebTot/totMatches);
+		this.totReb=DoubleFormat.transfer((double)totRebTot/totMatches);
+		this.ass=DoubleFormat.transfer((double)assTot/totMatches);
+		this.steal=DoubleFormat.transfer((double)stealTot/totMatches);
+		this.blockShot=DoubleFormat.transfer((double)blockShotTot/totMatches);
+		this.turnOver=DoubleFormat.transfer((double)turnOverTot/totMatches);
+		this.foul=DoubleFormat.transfer((double)foulTot/totMatches);
+		this.score=DoubleFormat.transfer((double)scoreTot/totMatches);
 		
 
 	}

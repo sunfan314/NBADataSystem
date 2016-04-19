@@ -12,6 +12,7 @@ import net.nba.dao.BaseDao;
 import net.nba.dataSpider.TeamInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
@@ -19,6 +20,7 @@ import net.nba.model.TeamMatchStatistics;
 import net.nba.model.TeamMatchStatisticsPK;
 import net.nba.model.TeamSeasonRank;
 import net.nba.model.TeamSeasonStatistics;
+import net.nba.service.PlayerService;
 import net.nba.service.TeamService;
 import net.nba.util.CommonDataManager;
 import net.nba.util.DoubleFormat;
@@ -49,6 +51,9 @@ public class TeamServiceImpl implements TeamService {
 	
 	@Resource
 	private BaseDao<PlayerSeasonStatistics> playerSeasonStatisticsDao;
+	
+	@Resource
+	private PlayerService playerService;
 
 	@Resource
 	private TeamInfoSpider teamInfoSpider;
@@ -123,6 +128,26 @@ public class TeamServiceImpl implements TeamService {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<PlayerAdvancedStatistics> getTeamPlayerAdvancedStatistics(
+			int teamId) {
+		// TODO Auto-generated method stub
+		List<PlayerAdvancedStatistics> list=new ArrayList<PlayerAdvancedStatistics>();
+		List<Player> playerList=getTeamPlayerList(teamId);
+		for (Player player : playerList) {
+			Team team=teamDao.get(Team.class,teamId);
+			List<PlayerMatchStatistics> dataList=playerService.getPlayerMatchStatistics(player.getId(), CommonDataManager.SEASON);
+			int totMatches=dataList.size();
+			if(totMatches==0){
+				continue;//跳过未上场球员
+			}
+			PlayerAdvancedStatistics statistics=new PlayerAdvancedStatistics(player, team, dataList, CommonDataManager.SEASON);
+			list.add(statistics);
+		}
+		return list;
+	}
+
 
 	@Override
 	public List<TeamMatchStatistics> getTeamMatchStatistics(int teamId,
@@ -183,6 +208,5 @@ public class TeamServiceImpl implements TeamService {
 		return vsMatchList;
 	}
 
-	
 
 }

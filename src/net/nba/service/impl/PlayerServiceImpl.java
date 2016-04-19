@@ -19,6 +19,7 @@ import net.nba.dao.BaseDao;
 import net.nba.dataSpider.PlayerInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerDataRank;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.model.PlayerMatchStatistics;
@@ -366,7 +367,34 @@ public class PlayerServiceImpl implements PlayerService {
 		return list;
 	}
 
-	
+	@Override
+	public PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(
+			int playerId) {
+		// TODO Auto-generated method stub
+		Player player=playerDao.get(Player.class, playerId);
+		Team team=teamDao.get(Team.class,player.getTeamId());
+		List<PlayerMatchStatistics> dataList=getPlayerMatchStatistics(playerId, CommonDataManager.SEASON);
+		int totMatches=dataList.size();
+		if(totMatches==0){
+			return null;//跳过未上场球员
+		}
+		PlayerAdvancedStatistics statistics=new PlayerAdvancedStatistics(player, team, dataList, CommonDataManager.SEASON);
+		return statistics;
+	}
+
+	@Override
+	public List<Integer> getPlayerSeasonPERValues(int playerId) {
+		// TODO Auto-generated method stub
+		List<Integer> list=new ArrayList<Integer>();
+		List<PlayerMatchStatistics> dataList=getPlayerMatchStatistics(playerId, CommonDataManager.SEASON);
+		for (PlayerMatchStatistics s : dataList) {
+			int per=(s.getScore()+s.getTotReb()+s.getAss()+s.getSteal()+s.getBlockShot())-(s.getTwoShot()+s.getThreeShot()
+					+s.getFreeThrowShot()-s.getTwoHit()-s.getThreeHit()-s.getFreeThrowHit())-s.getTurnOver();
+			list.add(per);
+		}
+		return list;
+	}
+
 	
 	
 	

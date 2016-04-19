@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.nba.model.Match;
 import net.nba.model.Player;
+import net.nba.model.PlayerAdvancedStatistics;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.model.TeamMatchStatistics;
@@ -59,6 +60,14 @@ public interface TeamService {
 	 * @return	球队球员赛季数据统计
 	 */
 	public List<PlayerSeasonStatistics> getTeamPlayerStatistics(int teamId);
+	
+
+	/**
+	 * @param teamId
+	 * @return	球队球员进阶数据统计
+	 */
+	public List<PlayerAdvancedStatistics> getTeamPlayerAdvancedStatistics(int teamId);
+
 	
 	/**
 	 * @param teamId
