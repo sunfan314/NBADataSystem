@@ -1,4 +1,4 @@
-package net.nba.dataSpider.impl;
+package net.nba.data.spider.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.apache.catalina.core.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import sun.launcher.resources.launcher;
-import net.nba.dataSpider.PlayerInfoSpider;
+import net.nba.data.spider.PlayerInfoSpider;
 import net.nba.model.Player;
 import net.nba.model.PlayerInfoDetail;
 import net.nba.util.DataSourceUrl;

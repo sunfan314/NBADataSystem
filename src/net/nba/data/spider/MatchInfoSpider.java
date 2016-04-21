@@ -1,4 +1,4 @@
-package net.nba.dataSpider;
+package net.nba.data.spider;
 
 import java.util.List;
 
@@ -16,6 +16,13 @@ public interface MatchInfoSpider {
 	 * @return	赛季比赛列表
 	 */
 	public List<Match> getSeasonMatchList();
+	
+	/**
+	 * @param year
+	 * @param month
+	 * @return	获取某月比赛列表
+	 */
+	public List<Match> getMonthMatchList(int year,int month);
 	
 	
 	/**

@@ -64,13 +64,17 @@ public class PlayerController {
 
 	/**
 	 * @param playerId
-	 * @return
+	 * @return	球员赛季进阶数据统计
 	 */
 	@RequestMapping("/getPlayerSeasonAdvancedStatistics")
 	public @ResponseBody PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(int playerId){
 		return playerService.getPlayerSeasonAdvancedStatistics(playerId);
 	}
 	
+	/**
+	 * @param playerId
+	 * @return	球员赛季各场比赛效率值
+	 */
 	@RequestMapping("/getPlayerSeasonPERValues")
 	public @ResponseBody List<Integer> getPlayerSeasonPREValues(int playerId){
 		return playerService.getPlayerSeasonPERValues(playerId);

@@ -1,4 +1,4 @@
-package net.nba.dataSpider.impl;
+package net.nba.data.spider.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import net.nba.dao.BaseDao;
-import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.data.spider.TeamInfoSpider;
 import net.nba.model.Team;
 import net.nba.model.TeamSeasonRank;
 import net.nba.util.DataSourceUrl;

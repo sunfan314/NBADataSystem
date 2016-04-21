@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 import com.mysql.fabric.xmlrpc.base.Array;
 
 import net.nba.dao.BaseDao;
-import net.nba.dataSpider.PlayerInfoSpider;
+import net.nba.data.spider.PlayerInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerAdvancedStatistics;
@@ -49,7 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
 	private BaseDao<Match> matchDao;
 
 	@Resource
-	private BaseDao<PlayerInfoDetail> playInfoDetailDao;
+	private BaseDao<PlayerInfoDetail> playerInfoDetailDao;
 
 	@Resource
 	private BaseDao<PlayerMatchStatistics> playerMatchStatisticsDao;
@@ -91,7 +91,7 @@ public class PlayerServiceImpl implements PlayerService {
 		List<PlayerInfoDetail> playerInfoDetails = playerInfoSpider
 				.getPlayerInfoDetail(list);
 		for (PlayerInfoDetail playerInfoDetail : playerInfoDetails) {
-			playInfoDetailDao.saveOrUpdate(playerInfoDetail);
+			playerInfoDetailDao.saveOrUpdate(playerInfoDetail);
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public PlayerInfoDetail getPlayerInfoDetail(int playeId) {
 		// TODO Auto-generated method stub
-		return playInfoDetailDao.get(PlayerInfoDetail.class, playeId);
+		return playerInfoDetailDao.get(PlayerInfoDetail.class, playeId);
 	}
 	
 	@Override

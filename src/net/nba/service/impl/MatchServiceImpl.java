@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import net.nba.dao.BaseDao;
-import net.nba.dataSpider.MatchInfoSpider;
+import net.nba.data.spider.MatchInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.TeamMatchStatistics;

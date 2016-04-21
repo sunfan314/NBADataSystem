@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"	
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
 	http://www.springframework.org/schema/aop 
@@ -12,7 +16,9 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/task  
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd  " >
 
 	<!-- 使用注解的包，包括子集 -->
 	<context:component-scan base-package="net.nba" />
@@ -84,6 +90,10 @@
 		<aop:pointcut id="serviceMethods" expression="execution(* net.nba.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
 	</aop:config>
+	<aop:config>
+		<aop:pointcut id="taskMethods" expression="execution(* net.nba.data.task.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="taskMethods" />
+	</aop:config>
 
 
 	<!-- 解决ResponseBody返回json乱码 -->
@@ -112,8 +122,9 @@
 		<property name="maxUploadSize" value="1000000000" />
 
 	</bean>
-
-
+	
+	<task:annotation-driven /> <!-- 定时器开关--> 
+	
 	<!-- 配置静态资源路径 -->
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />

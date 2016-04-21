@@ -33,5 +33,11 @@ public class MyLog {
 		String str = key + "	:	" + value;
 		MyFileWriter.appendToFile(str, FilePathManager.LOGPATH);
 	}
+	
+	public static void log(String info){
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+info, FilePathManager.RUNTIMELOG);
+	}
+	
 
 }

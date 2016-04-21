@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import net.nba.dao.BaseDao;
-import net.nba.dataSpider.TeamInfoSpider;
+import net.nba.data.spider.TeamInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerAdvancedStatistics;

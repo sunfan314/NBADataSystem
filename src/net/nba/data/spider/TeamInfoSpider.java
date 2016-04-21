@@ -1,4 +1,4 @@
-package net.nba.dataSpider;
+package net.nba.data.spider;
 
 import java.util.List;
 

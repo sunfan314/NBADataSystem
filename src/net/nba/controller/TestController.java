@@ -6,11 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import net.nba.dao.BaseDao;
-import net.nba.dataSpider.MatchInfoSpider;
-import net.nba.dataSpider.PlayerInfoSpider;
-import net.nba.dataSpider.TeamInfoSpider;
-import net.nba.dataSpider.impl.MatchInfoSpiderImpl;
-import net.nba.dataSpider.impl.PlayerInfoSpiderImpl;
+import net.nba.data.spider.MatchInfoSpider;
+import net.nba.data.spider.PlayerInfoSpider;
+import net.nba.data.spider.TeamInfoSpider;
+import net.nba.data.spider.impl.MatchInfoSpiderImpl;
+import net.nba.data.spider.impl.PlayerInfoSpiderImpl;
 import net.nba.model.Match;
 import net.nba.model.Player;
 import net.nba.model.PlayerAdvancedStatistics;

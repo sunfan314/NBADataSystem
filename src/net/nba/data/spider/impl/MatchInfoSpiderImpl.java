@@ -1,4 +1,4 @@
-package net.nba.dataSpider.impl;
+package net.nba.data.spider.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder.In;
 import org.springframework.stereotype.Service;
 
 import sun.print.resources.serviceui;
-import net.nba.dataSpider.MatchInfoSpider;
+import net.nba.data.spider.MatchInfoSpider;
 import net.nba.model.Match;
 import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.TeamMatchStatistics;
@@ -51,10 +51,104 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 //				list.add(match);
 //			}
 //		}
-		for (Match match : getMonthMatchList(seasonEndYear, 4)) {//获得4月最新比赛数据
-		match.setSeason(seasonStartYear + "-" + seasonEndYear);
-		match.setYear(seasonEndYear);
-		list.add(match);
+		for (Match match : getMonthMatchList(seasonEndYear, 4)) {//获取四月最新赛事列表
+			match.setSeason(seasonStartYear + "-" + seasonEndYear);
+			match.setYear(seasonEndYear);
+			list.add(match);
+		}
+		return list;
+	}
+	
+	public List<Match> getMonthMatchList(int year, int month) {
+		List<Match> list = new ArrayList<Match>();
+		String urlStr = DataSourceUrl.getMatchListURL(year, month);
+		StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
+		pattern = Pattern
+				.compile("(.*)(<!-- 赛程内容开始 -->)(.*?)(<!-- 赛程内容end-->)(.*)");
+		matcher = pattern.matcher(webPageBuffer);
+		if (matcher.matches()) {
+			String str1 = matcher.group(3);
+			pattern = Pattern.compile("(<tr)(.*?)(</tr>)");
+			matcher = pattern.matcher(str1);
+			String date = "";
+			while (matcher.find()) {
+				String str2 = matcher.group(2);
+				Pattern pattern1 = Pattern
+						.compile("([0-9]{2})(月)([0-9]{2})(日)");
+				Matcher matcher1 = pattern1.matcher(str2);
+				if (matcher1.find()) {// 日期栏目
+					date = matcher1.group(0);
+				} else {// 比赛栏目
+					pattern1 = Pattern
+							.compile("(.*)(<td height=\"25\">)(.*?)(</td>)(.*)");
+					matcher1 = pattern1.matcher(str2);
+					if (matcher1.matches()) {
+						String str3 = matcher1.group(3);
+						String[] temp = str3.split("\\s+");
+//						if(temp.length<2){//跳过未完赛比赛记录（季后赛未开始比赛有时只显示时间不显示未赛）
+//							continue;
+//						}
+//						if (temp[1].equals("未赛")||temp[1].equals("延期")) {// 跳过尚未开始的比赛
+//							continue;
+//						}
+						try {
+							if(!temp[1].equals("完场")){
+								continue;//跳过未赛和延期的比赛
+							};
+						} catch (ArrayIndexOutOfBoundsException e) {
+							// TODO: handle exception
+							continue;
+						}
+						Match match = new Match();
+						match.setDate(date);// 设置比赛日期
+						match.setTime(temp[0]);// 设置比赛时间
+						String str4 = matcher1.group(5);
+						pattern1 = Pattern.compile("(<td>)(.*?)(</td>)");
+						matcher1 = pattern1.matcher(str4);
+						if (matcher1.find()) {// 设置比赛类型
+							if (matcher1.group(2).equals("常规赛")) {
+								match.setType(0);
+							} else if (matcher1.group(2).equals("季后赛")) {
+								match.setType(1);
+
+							} else if (matcher1.group(2).equals("季前赛")) {
+								/*
+								 * 由于季前赛信息较为混乱，所以不计入比赛数据
+								 */
+								continue;
+							} else if( matcher1.group(2).equals("全明星")){
+								match.setType(3);
+							}
+						}
+						pattern1 = Pattern
+								.compile("(<a href=\"team.php.id=)(.*?)(\" target=\"_blank\">)(.*?)(</a>)");
+						matcher1 = pattern1.matcher(str4);
+						if (matcher1.find()) {// 设置客队id和客队名
+							match.setvId(Integer.parseInt(matcher1.group(2)));
+							match.setVisitingTeam(matcher1.group(4));
+						}
+						if (matcher1.find()) {// 设置主队id和主队名
+							match.sethId(Integer.parseInt(matcher1.group(2)));
+							match.setHomeTeam(matcher1.group(4));
+						}
+						pattern1 = Pattern
+								.compile("(<a href=\"http://sports.sina.com.cn/nba/live)(.*?)(>)(.*?)(</a>)");
+						matcher1 = pattern1.matcher(str4);
+						if (matcher1.find()) {// 设置主队客队比分
+							String[] temp1 = matcher1.group(4).split("-");
+							match.setVisitingScore(Integer.parseInt(temp1[0]));
+							match.setHomeScore(Integer.parseInt(temp1[1]));
+						}
+						pattern1 = Pattern
+								.compile("(look_scores.php.id=)(.*?)(\")");
+						matcher1 = pattern1.matcher(str4);
+						if (matcher1.find()) {// 设置比赛id
+							match.setId(Integer.parseInt(matcher1.group(2)));
+						}
+						list.add(match);
+					}
+				}
+			}
 		}
 		return list;
 	}
@@ -154,105 +248,7 @@ public class MatchInfoSpiderImpl implements MatchInfoSpider {
 		return list;
 	}
 
-
-	/**
-	 * @param year
-	 * @param month
-	 * @return 获取某年某月已完结比赛列表
-	 */
-	private List<Match> getMonthMatchList(int year, int month) {
-		List<Match> list = new ArrayList<Match>();
-		String urlStr = DataSourceUrl.getMatchListURL(year, month);
-		StringBuffer webPageBuffer = WebPageReader.readWebPage(urlStr);
-		pattern = Pattern
-				.compile("(.*)(<!-- 赛程内容开始 -->)(.*?)(<!-- 赛程内容end-->)(.*)");
-		matcher = pattern.matcher(webPageBuffer);
-		if (matcher.matches()) {
-			String str1 = matcher.group(3);
-			pattern = Pattern.compile("(<tr)(.*?)(</tr>)");
-			matcher = pattern.matcher(str1);
-			String date = "";
-			while (matcher.find()) {
-				String str2 = matcher.group(2);
-				Pattern pattern1 = Pattern
-						.compile("([0-9]{2})(月)([0-9]{2})(日)");
-				Matcher matcher1 = pattern1.matcher(str2);
-				if (matcher1.find()) {// 日期栏目
-					date = matcher1.group(0);
-				} else {// 比赛栏目
-					pattern1 = Pattern
-							.compile("(.*)(<td height=\"25\">)(.*?)(</td>)(.*)");
-					matcher1 = pattern1.matcher(str2);
-					if (matcher1.matches()) {
-						String str3 = matcher1.group(3);
-						String[] temp = str3.split("\\s+");
-//						if(temp.length<2){//跳过未完赛比赛记录（季后赛未开始比赛有时只显示时间不显示未赛）
-//							continue;
-//						}
-//						if (temp[1].equals("未赛")||temp[1].equals("延期")) {// 跳过尚未开始的比赛
-//							continue;
-//						}
-						try {
-							if(!temp[1].equals("完场")){
-								continue;//跳过未赛和延期的比赛
-							};
-						} catch (ArrayIndexOutOfBoundsException e) {
-							// TODO: handle exception
-							continue;
-						}
-						Match match = new Match();
-						match.setDate(date);// 设置比赛日期
-						match.setTime(temp[0]);// 设置比赛时间
-						String str4 = matcher1.group(5);
-						pattern1 = Pattern.compile("(<td>)(.*?)(</td>)");
-						matcher1 = pattern1.matcher(str4);
-						if (matcher1.find()) {// 设置比赛类型
-							if (matcher1.group(2).equals("常规赛")) {
-								match.setType(0);
-							} else if (matcher1.group(2).equals("季后赛")) {
-								match.setType(1);
-
-							} else if (matcher1.group(2).equals("季前赛")) {
-								/*
-								 * 由于季前赛信息较为混乱，所以不计入比赛数据
-								 */
-								continue;
-							} else if( matcher1.group(2).equals("全明星")){
-								match.setType(3);
-							}
-						}
-						pattern1 = Pattern
-								.compile("(<a href=\"team.php.id=)(.*?)(\" target=\"_blank\">)(.*?)(</a>)");
-						matcher1 = pattern1.matcher(str4);
-						if (matcher1.find()) {// 设置客队id和客队名
-							match.setvId(Integer.parseInt(matcher1.group(2)));
-							match.setVisitingTeam(matcher1.group(4));
-						}
-						if (matcher1.find()) {// 设置主队id和主队名
-							match.sethId(Integer.parseInt(matcher1.group(2)));
-							match.setHomeTeam(matcher1.group(4));
-						}
-						pattern1 = Pattern
-								.compile("(<a href=\"http://sports.sina.com.cn/nba/live)(.*?)(>)(.*?)(</a>)");
-						matcher1 = pattern1.matcher(str4);
-						if (matcher1.find()) {// 设置主队客队比分
-							String[] temp1 = matcher1.group(4).split("-");
-							match.setVisitingScore(Integer.parseInt(temp1[0]));
-							match.setHomeScore(Integer.parseInt(temp1[1]));
-						}
-						pattern1 = Pattern
-								.compile("(look_scores.php.id=)(.*?)(\")");
-						matcher1 = pattern1.matcher(str4);
-						if (matcher1.find()) {// 设置比赛id
-							match.setId(Integer.parseInt(matcher1.group(2)));
-						}
-						list.add(match);
-					}
-				}
-			}
-		}
-		return list;
-	}
+	
 
 	/**
 	 * @param group
