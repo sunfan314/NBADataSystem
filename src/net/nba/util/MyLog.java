@@ -8,30 +8,36 @@ import com.sun.jndi.url.dns.dnsURLContext;
  */
 public class MyLog {
 	public static void e(String info) {
-		MyFileWriter.appendToFile(info, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+info, FilePathManager.LOGPATH);
 	}
 
 	public static void e(String key, String value) {
 		String str = key + "	:	" + value;
-		MyFileWriter.appendToFile(str, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+str, FilePathManager.LOGPATH);
 	}
 
 	public static void d(String info) {
-		MyFileWriter.appendToFile(info, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+info, FilePathManager.LOGPATH);
 	}
 
 	public static void d(String key, String value) {
 		String str = key + "	:	" + value;
-		MyFileWriter.appendToFile(str, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+str, FilePathManager.LOGPATH);
 	}
 
 	public static void i(String info) {
-		MyFileWriter.appendToFile(info, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+info, FilePathManager.LOGPATH);
 	}
 
 	public static void i(String key, String value) {
 		String str = key + "	:	" + value;
-		MyFileWriter.appendToFile(str, FilePathManager.LOGPATH);
+		String timeStr=CurrentTime.getCurrentTime()+" : ";
+		MyFileWriter.appendToFile(timeStr+str, FilePathManager.LOGPATH);
 	}
 	
 	public static void log(String info){

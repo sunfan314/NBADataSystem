@@ -123,7 +123,7 @@
 
 	</bean>
 	
-	<task:annotation-driven /> <!-- 定时器开关--> 
+	<!-- <task:annotation-driven /> 定时器开关  -->
 	
 	<!-- 配置静态资源路径 -->
 	<mvc:annotation-driven />

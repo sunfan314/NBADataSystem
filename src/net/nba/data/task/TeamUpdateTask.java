@@ -40,9 +40,10 @@ public class TeamUpdateTask {
 	private TeamInfoSpider teamInfoSpider;
 	
 	/**
-	 * 更新球队信息
+	 * 更新球队信息，更新频率较低
+	 * 更新时间：在赛季期间（每年的10月至12月，一月至6月），每月的1日15日凌晨更新
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 0 0 1,15 1-6,10-12 ?")
 	public void updateTeamInfo(){
 		List<Team> list = teamInfoSpider.getTeamInfoList();
 		for (Team team : list) {
@@ -54,8 +55,9 @@ public class TeamUpdateTask {
 	
 	/**
 	 * 每日更新球队赛季排行信息
+	 * 在赛季期间（每年的10月至12月，一月至6月），每天0时至14时（由于在北京时间14点之后极少有比赛进行），从5分开始，每20分钟更新一次
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 5/20 0-14 * 1-6,10-12 ?")
 	public void updateTeamSeasonRanks(){
 		List<TeamSeasonRank> list=teamInfoSpider.getTeamSeasonRanks();
 		for (TeamSeasonRank rank : list) {
@@ -67,8 +69,9 @@ public class TeamUpdateTask {
 	
 	/**
 	 * 定时更新球队赛季数据统计
+	 *  在赛季期间（每年的10月至12月，一月至6月），每天0时至14时（由于在北京时间14点之后极少有比赛进行），从10分开始，每20分钟更新一次
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 10/20 0-14 * 1-6,10-12 ?")
 	public void updateTeamSeasonStatistics(){
 		List<TeamSeasonStatistics> list=new ArrayList<TeamSeasonStatistics>();
 		List<Team> teams=teamDao.find("from Team");

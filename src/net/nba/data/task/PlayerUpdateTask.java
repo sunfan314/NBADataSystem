@@ -13,6 +13,7 @@ import net.nba.model.PlayerMatchStatistics;
 import net.nba.model.PlayerSeasonStatistics;
 import net.nba.model.Team;
 import net.nba.service.PlayerService;
+import net.nba.service.TeamService;
 import net.nba.util.CommonDataManager;
 import net.nba.util.MyLog;
 
@@ -38,15 +39,20 @@ public class PlayerUpdateTask {
 	private BaseDao<PlayerSeasonStatistics> playerSeasonStatisticsDao;
 	
 	@Resource
+	private TeamService teamService;
+	
+	@Resource
 	private PlayerService playerService;
 	
 	@Resource
 	private PlayerInfoSpider playerInfoSpider;
 	
+	
 	/**
 	 * 定时更新球队阵容列表
+	 * 更新时间：在赛季期间（每年的10月至12月，一月至6月），每月的1日15日凌晨更新
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 0 0 1,15 1-6,10-12 ?")
 	public void updateTeamPlayerList(){
 		List<Player> list = playerInfoSpider.getTeamPlayerList();
 		for (Player player : list) {
@@ -65,9 +71,10 @@ public class PlayerUpdateTask {
 	}
 	
 	/**
-	 * 定时更新球员详细信息
+	 * 定时更新球员详细信息，更新频率较低
+	 * 更新时间：在赛季期间（每年的10月至12月，一月至6月），每月的1日15日凌晨更新
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 0 0 1,15 1-6,10-12 ?")
 	public void updatePlayerInfoDetail(){
 		List<Integer> list = new ArrayList<Integer>();
 		List<Player> playerList = playerDao.find("from Player");
@@ -84,9 +91,32 @@ public class PlayerUpdateTask {
 	}
 	
 	/**
-	 * 定时更新球员赛季数据统计
+	 * 下载球员图片并存储
+	 *  更新时间：在赛季期间（每年的10月至12月，一月至6月），每月的1日凌晨更新
 	 */
-	@Scheduled(cron = "*/30 * * * * ?")
+	@Scheduled(cron = "0 0 0 1 1-6,10-12 ?")
+	public void downloadPlayerPic(){
+		List<Team> teams=teamDao.find("from Team");
+		for (Team team : teams) {
+			List<Integer> list = new ArrayList<Integer>();
+			List<Player> players = teamService.getTeamPlayerList(team.getId());
+			for (Player player : players) {
+				list.add(player.getId());
+			}
+			try {
+				playerInfoSpider.downloadPlayerPic(list);
+			} catch (Exception e) {
+				// TODO: handle exception
+				MyLog.e(e.getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * 定时更新球员赛季数据统计
+	 * 在赛季期间（每年的10月至12月，一月至6月），每天0时至14时（由于在北京时间14点之后极少有比赛进行），从10分开始，每20分钟更新一次
+	 */
+	@Scheduled(cron = "0 10/20 0-14 * 1-6,10-12 ?")
 	public void updatePlayerSeasonStatistics(){
 		List<PlayerSeasonStatistics> list=new ArrayList<PlayerSeasonStatistics>();
 		List<Player> players=playerDao.find("from Player");
