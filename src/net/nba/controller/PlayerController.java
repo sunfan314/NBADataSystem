@@ -61,6 +61,14 @@ public class PlayerController {
 	public @ResponseBody PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId){
 		return playerService.getPlayerSeasonStatistics(playerId);
 	}
+	
+	/**
+	 * @return 所有球员赛季统计数据
+	 */
+	@RequestMapping("/getTotalPlayerSeasonStatistics")
+	public @ResponseBody List<PlayerSeasonStatistics> getTotalPlayerSeasonStatistics(){
+		return playerService.getTotalPlayerSeasonStatistics();
+	}
 
 	/**
 	 * @param playerId
@@ -73,11 +81,22 @@ public class PlayerController {
 	
 	/**
 	 * @param playerId
+	 * @return	所有球员赛季进阶数据统计
+	 */
+	@RequestMapping("/getTotalPlayerSeasonAdvancedStatistics")
+	public @ResponseBody List<PlayerAdvancedStatistics> getTotalPlayerSeasonAdvancedStatistics(){
+		return playerService.getTotalPlayerSeasonAdvancedStatistics();
+	}
+	
+	/**
+	 * @param playerId
 	 * @return	球员赛季各场比赛效率值
 	 */
 	@RequestMapping("/getPlayerSeasonPERValues")
 	public @ResponseBody List<Integer> getPlayerSeasonPREValues(int playerId){
 		return playerService.getPlayerSeasonPERValues(playerId);
 	}
+	
+	
 	
 }

@@ -366,6 +366,12 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<PlayerSeasonStatistics> getTotalPlayerSeasonStatistics() {
+		// TODO Auto-generated method stub
+		return playerSeasonStatisticsDao.find("from PlayerSeasonStatistics");
+	}
 
 	@Override
 	public PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(
@@ -381,6 +387,17 @@ public class PlayerServiceImpl implements PlayerService {
 		PlayerAdvancedStatistics statistics=new PlayerAdvancedStatistics(player, team, dataList, CommonDataManager.SEASON);
 		return statistics;
 	}
+	
+	@Override
+	public List<PlayerAdvancedStatistics> getTotalPlayerSeasonAdvancedStatistics() {
+		// TODO Auto-generated method stub
+		List<PlayerAdvancedStatistics> result=new ArrayList<PlayerAdvancedStatistics>();
+		List<Player> playerList=getPlayers();
+		for (Player player : playerList) {
+			result.add(getPlayerSeasonAdvancedStatistics(player.getId()));
+		}
+		return result;
+	}
 
 	@Override
 	public List<Integer> getPlayerSeasonPERValues(int playerId) {
@@ -395,8 +412,4 @@ public class PlayerServiceImpl implements PlayerService {
 		return list;
 	}
 
-	
-	
-	
-	
 }

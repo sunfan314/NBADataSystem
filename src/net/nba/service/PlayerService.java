@@ -68,6 +68,11 @@ public interface PlayerService {
 	 * @return	球员赛季数据统计
 	 */
 	public PlayerSeasonStatistics getPlayerSeasonStatistics(int playerId);
+	
+	/**
+	 * @return 所有球员赛季统计数据
+	 */
+	public List<PlayerSeasonStatistics> getTotalPlayerSeasonStatistics();
 
 	
 	/**
@@ -75,12 +80,20 @@ public interface PlayerService {
 	 * @return	球员赛季进阶数据统计
 	 */
 	public PlayerAdvancedStatistics getPlayerSeasonAdvancedStatistics(int playerId);
+	
+	/**
+	 * @return	所有球员赛季进阶数据统计
+	 */
+	public List<PlayerAdvancedStatistics> getTotalPlayerSeasonAdvancedStatistics();
 
 	/**
 	 * @param playerId
 	 * @return	球员赛季效率值列表
 	 */
 	public List<Integer> getPlayerSeasonPERValues(int playerId);
+
+	
+
 
 
 }
