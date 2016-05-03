@@ -32,6 +32,11 @@ public interface PlayerService {
 	 */
 	public void updatePlayerSeasonStatistics();
 	
+	/**
+	 * @usage 更新球员赛季进阶数据统计
+	 */
+	public void updatePlayerSeasonAdvancedStatistics();
+	
 	
 	/**
 	 * @return	所有球员列表

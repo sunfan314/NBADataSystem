@@ -196,6 +196,19 @@ public class TestController {
 		
 	}
 	
+	@RequestMapping("updatePlayerAdvancedStatistics")
+	public @ResponseBody String updatePlayerAdvancedStatistics(){
+		try {
+			playerService.updatePlayerSeasonAdvancedStatistics();
+			return "Update Player-Season-Advanced-Statistics Success!";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		
+	}
+	
 	@RequestMapping("updateTeamSeasonStatistics")
 	public @ResponseBody String updateTeamSeasonStatistics(){
 		try {

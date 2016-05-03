@@ -56,6 +56,9 @@ public class PlayerServiceImpl implements PlayerService {
 	
 	@Resource 
 	private BaseDao<PlayerSeasonStatistics> playerSeasonStatisticsDao;
+	
+	@Resource
+	private BaseDao<PlayerAdvancedStatistics> playerAdvancedStatisticsDao;
 
 	@Resource
 	private MatchService matchService;
@@ -117,6 +120,29 @@ public class PlayerServiceImpl implements PlayerService {
 			playerSeasonStatisticsDao.saveOrUpdate(pss);
 		}
 		
+	}
+	
+	@Override
+	public void updatePlayerSeasonAdvancedStatistics() {
+		// TODO Auto-generated method stub
+		List<PlayerAdvancedStatistics> list=new ArrayList<PlayerAdvancedStatistics>();
+		List<Player> players=playerDao.find("from Player");
+		for (Player player : players) {
+			/*
+			 * 获得球员赛季常规赛比赛统计数据列表
+			 */
+			Team team=teamDao.get(Team.class, player.getTeamId());
+			List<PlayerMatchStatistics> dataList=getPlayerMatchStatistics(player.getId(), CommonDataManager.SEASON);
+			int totMatches=dataList.size();
+			if(totMatches==0){
+				continue;//跳过未上场球员
+			}
+			PlayerAdvancedStatistics statistics=new PlayerAdvancedStatistics(player,team,dataList,CommonDataManager.SEASON);
+			list.add(statistics);
+		}
+		for (PlayerAdvancedStatistics statistics : list) {
+			playerAdvancedStatisticsDao.saveOrUpdate(statistics);
+		}
 	}
 
 	@Override
@@ -391,12 +417,7 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public List<PlayerAdvancedStatistics> getTotalPlayerSeasonAdvancedStatistics() {
 		// TODO Auto-generated method stub
-		List<PlayerAdvancedStatistics> result=new ArrayList<PlayerAdvancedStatistics>();
-		List<Player> playerList=getPlayers();
-		for (Player player : playerList) {
-			result.add(getPlayerSeasonAdvancedStatistics(player.getId()));
-		}
-		return result;
+		return playerAdvancedStatisticsDao.find("from PlayerAdvancedStatistics");
 	}
 
 	@Override
@@ -411,5 +432,7 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		return list;
 	}
+
+	
 
 }
