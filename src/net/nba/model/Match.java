@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * type					比赛类型（常规赛:0、季后赛:1、季前赛：2）
  * season				赛季信息（例：2015-2016，一般赛季从10月开始季前赛，4月进入季后赛，6月决出总冠军）
  * date					比赛日期
+ * year					比赛年份
  * time 				比赛结束时间
  */
 @Entity

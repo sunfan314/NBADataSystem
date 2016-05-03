@@ -31,6 +31,15 @@ public class MatchController {
 	}
 	
 	/**
+	 * @param date 例：2015-03-21
+	 * @return	获取某一日的比赛列表
+	 */
+	@RequestMapping("/getMatchListOfDay")
+	public @ResponseBody List<Match> getMatchListOfDay(String date){
+		return matchService.getMatchListOfDay(date);
+	}
+	
+	/**
 	 * @param teamId
 	 * @return	当前赛季某只球队的所有比赛列表
 	 */
@@ -57,7 +66,7 @@ public class MatchController {
 		return matchService.getTeamMatchStatistics(matchId);
 	}
 	
-	//@RequestMapping(/"")
+	
 	
 	
 

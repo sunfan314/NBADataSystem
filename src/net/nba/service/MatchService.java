@@ -18,6 +18,13 @@ public interface MatchService {
 	public void updateSeasonMatchList();
 	
 	/**
+	 * @param date
+	 * @return 某一日的比赛列表
+	 */
+	public List<Match> getMatchListOfDay(String date);
+
+	
+	/**
 	 *更新球员比赛统计数据 
 	 */
 	public void updatePlayerMatchStatistics();

@@ -44,6 +44,27 @@ public class MatchServiceImpl implements MatchService{
 		}
 	}
 	
+
+	@Override
+	public List<Match> getMatchListOfDay(String date) {
+		// TODO Auto-generated method stub
+		try {
+			String[] temp = date.split("-");
+			int year = Integer.parseInt(temp[0]);
+			String dateStr = temp[1] + "月" + temp[2] + "日";
+			List<Object> params=new ArrayList<Object>();
+			params.add(year);
+			params.add(dateStr);
+			return matchDao.find("from Match where year = ? and date = ?", params);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+	
 	@Override
 	public void updatePlayerMatchStatistics() {
 		// TODO Auto-generated method stub
@@ -125,6 +146,5 @@ public class MatchServiceImpl implements MatchService{
 		// TODO Auto-generated method stub
 		return teamMatchStatisticsDao.find("from TeamMatchStatistics where matchId = ?", matchId);
 	}
-
 
 }
