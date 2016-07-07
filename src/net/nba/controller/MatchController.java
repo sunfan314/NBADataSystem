@@ -26,8 +26,8 @@ public class MatchController {
 	 * @return	最近50场比赛的列表
 	 */
 	@RequestMapping("/getLatestMatchList")
-	public @ResponseBody List<Match> getLatestMatchs(){
-		return matchService.getLatestMatchs();
+	public @ResponseBody List<Match> getLatestMatches(){
+		return matchService.getLatestMatches();
 	}
 	
 	/**

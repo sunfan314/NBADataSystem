@@ -115,7 +115,7 @@ public class MatchServiceImpl implements MatchService{
 	}
 
 	@Override
-	public List<Match> getLatestMatchs() {
+	public List<Match> getLatestMatches() {
 		// TODO Auto-generated method stub
 		List<Match> matchs=matchDao.find("from Match");
 		List<Match> list=new ArrayList<Match>();

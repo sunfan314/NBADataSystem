@@ -44,7 +44,7 @@ public interface MatchService {
 	/**
 	 * @return	最近50场比赛的记录列表
 	 */
-	public List<Match> getLatestMatchs();
+	public List<Match> getLatestMatches();
 
 	/**
 	 * @param teamId

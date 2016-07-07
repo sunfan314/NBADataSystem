@@ -71,6 +71,10 @@ public class TeamController {
 		
 	}
 	
+	/**
+	 * @param teamId
+	 * @return	球队球员赛季进阶数据统计
+	 */
 	@RequestMapping("/getTeamPlayerAdvancedStatistics")
 	public @ResponseBody List<PlayerAdvancedStatistics> getPlayerAdvancedStatistics(int teamId){
 		return teamService.getTeamPlayerAdvancedStatistics(teamId);
